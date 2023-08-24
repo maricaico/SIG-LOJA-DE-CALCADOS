@@ -1,10 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 /////
 // Assinatura das funções
 void tela_principal(void);
 void tela_sobre(void);
 void tela_equipe(void);
+void tela_menu_cadastro(void);
+void tela_cadastrar_clientes(void);
+void tela_cadastrar_produtos(void);
+void tela_cadastrar_vendedores(void);
+void tela_pesquisar_clientes(void);
+void tela_pesquisar_produtos(void);
+void tela_pesquisar_vendedores(void);
+void tela_alterar_clientes(void);
+void tela_alterar_produtos(void);
+void tela_alterar_vendedores(void);
+void tela_excluir_clientes(void);
+void tela_excluir_produtos(void);
+void tela_excluir_vendedores(void);
 
 /////
 // Programa principal
@@ -12,6 +26,19 @@ int main(void) {
     tela_principal();
     tela_sobre();
     tela_equipe();
+    tela_menu_cadastro();
+    tela_cadastrar_clientes();
+    tela_cadastrar_produtos();
+    tela_cadastrar_vendedores();
+    tela_pesquisar_clientes();
+    tela_pesquisar_produtos();
+    tela_pesquisar_vendedores();
+    tela_alterar_clientes();
+    tela_alterar_produtos();
+    tela_alterar_vendedores();
+    tela_excluir_clientes();
+    tela_excluir_produtos();
+    tela_excluir_vendedores();
     return 0;
 }
 
@@ -20,6 +47,7 @@ int main(void) {
 // Funções
 
 void tela_principal(void) {
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -42,10 +70,13 @@ void tela_principal(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
 }
 
 
 void tela_sobre(void) {
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -58,10 +89,13 @@ void tela_sobre(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
 }
 
 
 void tela_equipe(void) {
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -75,4 +109,6 @@ void tela_equipe(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-} 
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
