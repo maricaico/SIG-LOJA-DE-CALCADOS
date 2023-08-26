@@ -112,3 +112,61 @@ void tela_equipe(void) {
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
+
+
+void tela_menu_cadastro(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |        MENU CADASTRO          |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            1. Cadastrar Cliente                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            2. Cadastrar Produto                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            3. Cadastrar Vendedor                                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            4. Pesquisar Cliente                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            5. Pesquisar Produto                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            6. Pesquisar Vendedor                                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            7. Alterar Cadastro de Clientes                              ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            8. Alterar Cadastro de Produto                               ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            9. Alterar Cadastro de Vendedor                              ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            10. Excluir Cadastro de Cliente                              ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            11. Excluir Cadastro de Produto                              ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            12. Excluir Cadastro de Vendedor                             ***\n");
+    printf("***                                                                         ***\n");
+    printf("***             0. Voltar ao Menu Anterior                                  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***             Escolha a Opção Desejada:                                   ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
