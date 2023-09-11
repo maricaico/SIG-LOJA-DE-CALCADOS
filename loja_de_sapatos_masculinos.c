@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 /////
 // Assinatura das funções
-void tela_principal(void);
+char tela_principal(void);
 void tela_sobre(void);
 void tela_equipe(void);
-void tela_menu_cadastro(void);
+
+void menuCadastro(void);
+int tela_menu_cadastro(void);
 void tela_cadastrar_clientes(void);
 void tela_cadastrar_produtos(void);
 void tela_cadastrar_vendedores(void);
@@ -19,36 +22,50 @@ void tela_alterar_vendedores(void);
 void tela_excluir_clientes(void);
 void tela_excluir_produtos(void);
 void tela_excluir_vendedores(void);
-void tela_menu_vendas(void);
+
+void menuVendas(void); 
+char tela_menu_vendas(void);
+void tela_registar_vendas(void);
+void tela_consultar_vendas(void);
+
 
 /////
 // Programa principal
+
+
 int main(void) {
-    tela_principal();
-    tela_sobre();
-    tela_equipe();
-    tela_menu_cadastro();
-    tela_cadastrar_clientes();
-    tela_cadastrar_produtos();
-    tela_cadastrar_vendedores();
-    tela_pesquisar_clientes();
-    tela_pesquisar_produtos();
-    tela_pesquisar_vendedores();
-    tela_alterar_clientes();
-    tela_alterar_produtos();
-    tela_alterar_vendedores();
-    tela_excluir_clientes();
-    tela_excluir_produtos();
-    tela_excluir_vendedores();
-    tela_menu_vendas();
+    char opcao;
+
+    do {
+        opcao = tela_principal();
+        switch(opcao) {
+            case '1':   menuCadastro();
+                        break;
+            case '2':   menuVendas();
+                        break;
+            case '3':   //menuEstoque();
+                        break;
+            case '4':   //menuRelatórios
+                        break;
+            case '5':   tela_sobre();
+                        tela_equipe();
+                        break;
+        } 	
+    } while (opcao != '0');
+
     return 0;
 }
 
+  
 
 /////
-// Funções
+// Funções Módulo Principal
 
-void tela_principal(void) {
+
+
+char tela_principal(void) {
+    char op;
+
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -68,13 +85,17 @@ void tela_principal(void) {
     printf("***            2. Vendas                                                    ***\n");
     printf("***            3. Estoque                                                   ***\n");
     printf("***            4. Relatórios                                                ***\n");
+    printf("***            5. Sobre o Programa                                          ***\n");
     printf("***            0. Sair                                                      ***\n");
-    printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("***            Escolha a opção desejada:  ");
+    scanf("%c", &op);
     getchar();
-}
+    printf("\n");
+    printf("\t\t\t>>> ... Aguarde ...\n");
+    sleep(1);
+    return op;
+ }
 
 
 void tela_sobre(void) {
@@ -116,7 +137,48 @@ void tela_equipe(void) {
 }
 
 
-void tela_menu_cadastro(void) {
+/////
+////// Funções do Cadastro
+//////
+
+void menuCadastro(void) {
+    int opcao;
+
+    do {
+        opcao = tela_menu_cadastro();
+        switch(opcao) {
+            case 1: 	tela_cadastrar_clientes();
+                        break;
+            case 2: 	tela_cadastrar_produtos();
+                        break;
+            case 3: 	tela_cadastrar_vendedores();
+                        break;
+            case 4: 	tela_pesquisar_clientes();
+                        break;
+            case 5: 	tela_pesquisar_produtos();
+                        break;
+            case 6: 	tela_pesquisar_vendedores();
+                        break;
+            case 7: 	tela_alterar_clientes();
+                        break;
+            case 8: 	tela_alterar_produtos();
+                        break;
+            case 9: 	tela_alterar_vendedores();
+                        break;
+            case 10: 	tela_excluir_clientes();
+                        break;
+            case 11: 	tela_excluir_produtos();
+                        break;
+            case 12: 	tela_excluir_vendedores();
+                        break;      
+        } 		
+    } while (opcao != 0);
+}
+
+
+int tela_menu_cadastro(void) {
+    int op;
+
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -164,14 +226,16 @@ void tela_menu_cadastro(void) {
     printf("***             0. Voltar ao Menu Anterior                                  ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***             Escolha a Opção Desejada:                                   ***\n");
-    printf("***                                                                         ***\n");
+    printf("***            Escolha a opção desejada:  ");
+    scanf("%d", &op);
+    getchar();
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
-}
+    printf("\t\t\t>>> ... Aguarde ...\n");
+    sleep(1);
+    return op;
+ }
 
 
 void tela_cadastrar_clientes(void) {
@@ -208,7 +272,7 @@ void tela_cadastrar_clientes(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -249,7 +313,7 @@ void tela_cadastrar_produtos(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -288,7 +352,7 @@ void tela_cadastrar_vendedores(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -321,7 +385,7 @@ void tela_pesquisar_clientes(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -354,7 +418,7 @@ void tela_pesquisar_produtos(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -387,7 +451,7 @@ void tela_pesquisar_vendedores(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -420,7 +484,7 @@ void tela_alterar_clientes(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -453,7 +517,7 @@ void tela_alterar_produtos(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -486,7 +550,7 @@ void tela_alterar_vendedores(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -519,7 +583,7 @@ void tela_excluir_clientes(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -552,7 +616,7 @@ void tela_excluir_produtos(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
@@ -585,12 +649,30 @@ void tela_excluir_vendedores(void) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
 
 
-void tela_menu_vendas(void) {
+
+void menuVendas(void) {
+    char opcao;
+
+    do {
+        opcao = tela_menu_vendas();
+        switch(opcao) {
+            case '1':   tela_registar_vendas();
+                        break;
+            case '2':   tela_consultar_vendas();
+                        break;
+          } 		
+    } while (opcao != '0');
+}
+
+
+char tela_menu_vendas(void) {
+    char op;
+
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -617,12 +699,78 @@ void tela_menu_vendas(void) {
     printf("***                                                                         ***\n");
     printf("***            0. Voltar ao Menu Anterior                                   ***\n");
     printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***            Escolha a opção desejada:  ");
+    scanf("%c", &op);
+    getchar();
+    printf("\n");
+    printf("\t\t\t>>> ... Aguarde ...\n");
+    sleep(1);
+    return op;
+ }
+
+
+ void tela_registar_vendas(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
-    printf("***            Escolha a Opção Desejada:                                    ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |      REGISTRAR VENDAS         |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                   Em construção                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
+    getchar();
+}
+
+
+void tela_consultar_vendas(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |      CONSULTAR VENDAS         |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                Em construção                                            ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
 }
