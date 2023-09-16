@@ -12,34 +12,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "usuario.h"
+#include "cliente.h"
 
 
 /////
-////// Funções do Módulo Usuário
+////// Funções do Módulo Cliente
 //////
 
-void menuUsuario(void) {
+void menuCliente(void) {
     char opcao;
-
+    
     do {
-        opcao = tela_menu_usuario();
+        opcao = tela_menu_cliente();
         switch(opcao) {
-            case '1': 	tela_cadastrar_usuario();
+            case '1': 	tela_cadastrar_cliente();
                         break;
-            case '2': 	tela_pesquisar_usuario();
+            case '2': 	tela_pesquisar_cliente();
                         break;
-            case '3': 	tela_alterar_usuario();
+            case '3': 	tela_alterar_cliente();
                         break;
-            case '4': 	tela_excluir_usuario();
+            case '4': 	tela_excluir_cliente();
                         break;
         } 		
     } while (opcao != '0');
 }
 
 
-
-char tela_menu_usuario(void) {
+char tela_menu_cliente(void) {
     char op;
 
     system("clear||cls");
@@ -58,17 +57,17 @@ char tela_menu_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***                 _______________________________                         ***\n");
     printf("***                |                               |                        ***\n");
-    printf("***                |        MENU USUÁRIO           |                        ***\n");
+    printf("***                |        MENU CLIENTE           |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            1. Cadastrar Usuário                                         ***\n");
+    printf("***            1. Cadastrar Cliente                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            2. Pesquisar Usuário                                         ***\n");
+    printf("***            2. Pesquisar Cliente                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            3. Alterar Usuário                                           ***\n");
+    printf("***            3. Alterar Cliente                                           ***\n");
     printf("***                                                                         ***\n");
-    printf("***            4. Excluir Usuário                                           ***\n");
+    printf("***            4. Excluir Cliente                                           ***\n");
     printf("***                                                                         ***\n");
     printf("***            0. Voltar ao Menu Anterior                                   ***\n");
     printf("***                                                                         ***\n");
@@ -84,8 +83,7 @@ char tela_menu_usuario(void) {
  }
 
 
-
- void tela_cadastrar_usuario(void) {
+void tela_cadastrar_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -102,7 +100,7 @@ char tela_menu_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***                 _______________________________                         ***\n");
     printf("***                |                               |                        ***\n");
-    printf("***                |      CADASTRAR USUÁRIO        |                        ***\n");
+    printf("***                |      CADASTRAR CLIENTE        |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
@@ -124,7 +122,7 @@ char tela_menu_usuario(void) {
 }
 
 
-void tela_pesquisar_usuario(void) {
+void tela_pesquisar_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -141,7 +139,7 @@ void tela_pesquisar_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***                 _______________________________                         ***\n");
     printf("***                |                               |                        ***\n");
-    printf("***                |      PESQUISAR USUÁRIO        |                        ***\n");
+    printf("***                |      PESQUISAR CLIENTE        |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
@@ -157,8 +155,7 @@ void tela_pesquisar_usuario(void) {
 }
 
 
-
-void tela_alterar_usuario(void) {
+void tela_alterar_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -175,7 +172,7 @@ void tela_alterar_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***                 _______________________________                         ***\n");
     printf("***                |                               |                        ***\n");
-    printf("***                |      ALTERAR USUÁRIO          |                        ***\n");
+    printf("***                |      ALTERAR CLIENTE          |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
@@ -191,7 +188,7 @@ void tela_alterar_usuario(void) {
 }
 
 
-void tela_excluir_usuario(void) {
+void tela_excluir_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -208,7 +205,7 @@ void tela_excluir_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***                 _______________________________                         ***\n");
     printf("***                |                               |                        ***\n");
-    printf("***                |       EXCLUIR USUÁRIO         |                        ***\n");
+    printf("***                |       EXCLUIR CLIENTE         |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
