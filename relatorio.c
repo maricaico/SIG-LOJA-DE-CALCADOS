@@ -60,7 +60,7 @@ char tela_menu_relatorio(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            1. Relatório de Usários                                      ***\n");
+    printf("***            1. Relatório de Usuários                                     ***\n");
     printf("***                                                                         ***\n");
     printf("***            2. Relatório de Clientes                                     ***\n");
     printf("***                                                                         ***\n");
