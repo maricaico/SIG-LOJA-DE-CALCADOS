@@ -10,13 +10,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 /////
-// Assinatura das funções Módulo Cliente
+// Assinatura das funções Módulo Produto
 ////
 
-void menuCliente(void);
-char tela_menu_cliente(void);
-void tela_cadastrar_cliente(void);
-void tela_pesquisar_cliente(void);
-void tela_alterar_cliente(void);
-void tela_excluir_cliente(void);
 
+void menuProduto(void);
+char tela_menu_produto(void);
+void tela_cadastrar_produto(void);
+void tela_pesquisar_produto(void);
+void tela_alterar_produto(void);
+void tela_excluir_produto(void);
