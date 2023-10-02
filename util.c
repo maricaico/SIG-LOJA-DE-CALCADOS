@@ -35,7 +35,8 @@ void limpaTela(void) {
 }
 
 
-/// Retorna 1 se o caractere recebido for um dígito (entre 0 e 9) e 0 se for o contrário
+// Função inspirada no código do Prof. Flavius
+
 int ehDigito(char c) {
   if (c >= '0' && c <= '9') {
     return true;
@@ -45,6 +46,8 @@ int ehDigito(char c) {
 }
 
 
+
+// Função inspirada no código do Prof. Flavius
 
 int ehBissexto(int aa) {
   if ((aa % 4 == 0) && (aa % 100 != 0)) {
@@ -58,8 +61,7 @@ int ehBissexto(int aa) {
 
 
 // Função inspirada no código do Prof. Flavius
-/// Retorna 1 se o caractere recebido for uma letra do alfabético 
-/// (letra entre 'A' e 'Z' ou 'a' e 'z') ou retorna 0 caso contrário
+
 int ehLetra(char c) {
   if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
     return true;
@@ -85,8 +87,8 @@ int ehValido(char c) {
   }
 }
 
-/// Retorna 1 se dia, mes e ano correspondem a uma data válida, inclusive
-/// anos bissextos, ou retorna 0 caso contrário
+
+
 //Função adaptada do código do professsor Flávius 
 int validarData(int dd, int mm, int aa) {
   int maiorDia;
@@ -107,23 +109,22 @@ int validarData(int dd, int mm, int aa) {
 }
 
 //Função adaptada do código do professsor Flávius 
-/// Retorna 1 se string recebido for exclusivamente alfabético ou retorna 0 caso não
+
 int validarNome(char* nome) {
-  int tam;
-  
-  tam = strlen(nome);
-  for (int i = 0; i < tam-1; i++) {
+  for (int i=0; nome[i]!='\0'; i++) {
     if (!ehLetra(nome[i])) {
       return false;
     }
+
   }
-  return true;  
+  return true;
 }
 
+
+
 //Função adaptada do código do professsor Flávius 
-/// Retorna 1 se string recebido corresponder a um número de celular válido 
-/// (apenas dígitos) ou retorna 0 caso contrário
-int validarFone(char* fone) {
+
+int validarFone (char* fone) {
   int tam;
 
   tam = strlen(fone);
@@ -136,13 +137,9 @@ int validarFone(char* fone) {
     }
   }
   return true;
-
 }
 
 
-
-/// Retorna 1 se string recebido corresponder a um número de cpf válido 
-/// (apenas dígitos) ou retorna 0 caso contrário
 
 int validarCpf(char* cpf) {
   int tam;
