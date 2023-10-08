@@ -9,15 +9,27 @@
 ///////////                                                                         ////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include "usuario.h"
+#include "util.h"
 
 
 /////
 ////// Funções do Módulo Usuário
 //////
+
+
+void ler_Cpf (char*);
+void ler_Nome (char*);
+void ler_Email (char*);
+void ler_Nasc (char*);
+void ler_Fone (char*);
+
+
 
 void menuUsuario(void) {
     char opcao;
@@ -39,10 +51,34 @@ void menuUsuario(void) {
 
 
 
+void cadastrarUsuario(void) {
+	// função ainda em desenvolvimento
+	tela_cadastrar_usuario();
+}
+
+
+void pesquisarUsuario(void) {
+	// função ainda em desenvolvimento
+	tela_pesquisar_usuario();
+}
+
+
+void alterarUsuario(void) {
+	// função ainda em desenvolvimento
+	tela_alterar_usuario();
+}
+
+
+void excluirUsuario(void) {
+	// função ainda em desenvolvimento
+	tela_excluir_usuario();
+}
+
+
+
 char tela_menu_usuario(void) {
     char op;
-
-    system("clear||cls");
+    limpaTela();
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -78,15 +114,20 @@ char tela_menu_usuario(void) {
     scanf("%c", &op);
     getchar();
     printf("\n");
-    printf("\t\t\t>>> ... Aguarde ...\n");
-    sleep(1);
+    delay(1);
     return op;
  }
 
 
 
  void tela_cadastrar_usuario(void) {
-    system("clear||cls");
+    char cpf[12];
+	char nome[50];
+	char email[40];
+	char nasc[11];
+	char fone[12];
+
+    limpaTela();
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -106,26 +147,32 @@ char tela_menu_usuario(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            CPF (Apenas Números):                                        ***\n");
+   
+    ler_Cpf(cpf);
+
+    ler_Nome(nome);
+
+    ler_Email(email);
+
+    ler_Nasc(nasc);
+
+    ler_Fone(fone);
+
+
     printf("***                                                                         ***\n");
-    printf("***            Nome Completo:                                               ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Email:                                                       ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Data de Nascimento: (dd/mm/aaaa)                             ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Telefone (Apenas números):                                   ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
+    delay(1);
     getchar();
 }
 
 
 void tela_pesquisar_usuario(void) {
-    system("clear||cls");
+   char cpf[12];
+
+    limpaTela();
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -147,19 +194,22 @@ void tela_pesquisar_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***            Digite o CPF (Apenas Números):                               ***\n");
     printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
+    scanf("%[0-9]", cpf);
+    getchar();
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
-    getchar();
+    printf("\n");
+	delay(1);
 }
 
 
 
 void tela_alterar_usuario(void) {
-    system("clear||cls");
+    char cpf[12];
+
+    limpaTela();
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -181,18 +231,22 @@ void tela_alterar_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***            Digite o CPF (Apenas Números):                               ***\n");
     printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
+    scanf("%[0-9]", cpf);
+    getchar();
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
-    getchar();
+    printf("\n");
+	delay(1);
 }
 
 
+
 void tela_excluir_usuario(void) {
-    system("clear||cls");
+    char cpf[12];
+
+    limpaTela();
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -215,10 +269,116 @@ void tela_excluir_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***                Informe o CPF (apenas números):                          ***\n");
     printf("***                                                                         ***\n");
+    scanf("%[0-9]", cpf);
+    getchar();
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
+    printf("\n");
+	delay(1);
+}
+
+
+
+// Funções
+
+void ler_Cpf (char* cpf) {
+    fflush(stdin);
+    printf("Digite o CPF (Apenas Números): ");
+    fgets (cpf, 12, stdin);
+    while (!validarCpf (cpf)) {
+        printf("Erro! Digite novamente: ");
+        fgets (cpf, 12, stdin);
+    }
     getchar();
 }
+
+// Função inspirada no código do Prof. Flavius
+
+void ler_Nome(char* nome) {
+  fflush(stdin);
+  printf("Digite o nome: ");
+  fgets(nome, 50, stdin); 
+  // Remove o caractere de nova linha do final, se estiver presente
+  int tam = strlen(nome);
+  if (tam > 0 && nome[tam - 1] == '\n') {
+    nome[tam - 1] = '\0';
+    fflush(stdin);
+  }
+  while (!validarNome(nome)) {
+    printf("Nome inválido: %s\n", nome);
+    printf("Informe um novo nome: ");
+    fflush(stdin);
+    fgets(nome, 50, stdin); 
+    // Remove o caractere de nova linha do final, se estiver presente
+    tam = strlen(nome);
+    if (tam > 0 && nome[tam - 1] == '\n') {
+      nome[tam - 1] = '\0';
+      fflush(stdin);
+    }
+  } 
+}
+
+
+void ler_Email(char* email) {
+    fflush(stdin);
+    printf("Digite o Email: ");
+    fgets(email, 40, stdin);
+    while (!validarEmail(email)) {
+        printf("Erro! Digite novamente: ");
+        fgets(email, 40, stdin);
+        fflush(stdin);
+    }
+}
+
+// Função inspirada no código do Prof. Flavius
+
+void ler_Nasc(char* nasc) {
+  int dia, mes, ano;
+  char dd[3], mm[3], aa[5];
+  fflush(stdin);
+  printf("Data de nascimento (dd/mm/aaaa): ");
+  fgets(nasc, 11, stdin); 
+  getchar();
+  
+  strncpy(dd, &nasc[0], 2);
+  sscanf(dd, "%d", &dia);
+  
+  strncpy(mm, &nasc[3], 2);
+  sscanf(mm, "%d", &mes);
+
+  strncpy(aa, &nasc[6], 4);
+  sscanf(aa, "%d", &ano);
+
+  while (!validarData(dia, mes, ano)) {
+    printf("Data inválida: %d/%d/%d\n", dia, mes, ano);
+    printf("Informe uma nova data\n\n");
+    printf("Data de nascimento: ");
+    fgets(nasc, 11, stdin);
+    fflush(stdin);
+    getchar();
+    strncpy(dd, &nasc[0], 2);
+    sscanf(dd, "%d", &dia);
+    strncpy(mm, &nasc[3], 2);
+    sscanf(mm, "%d", &mes);
+    strncpy(aa, &nasc[6], 4);
+    sscanf(aa, "%d", &ano);
+    
+  } 
+}
+
+
+
+
+void ler_Fone (char* fone) {
+    fflush (stdin);
+    printf("Digite o Telefone (Apenas Números): ");
+    fgets (fone, 12, stdin);
+
+    while (!validarFone (fone)) {
+        printf("Erro! Digite novamente: ");
+        fgets (fone, 12, stdin);
+    
+    }
+} 
