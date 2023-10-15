@@ -14,6 +14,15 @@
 // Assinatura das funções Módulo Usuário
 ////
 
+typedef struct usuario Usuario;
+
+struct usuario {
+    char cpf[12];
+	char nome[50];
+	char email[40];
+	char nasc[11];
+	char fone[12];
+};
 
 void menuUsuario(void);
 char tela_menu_usuario(void);
@@ -25,9 +34,9 @@ void cadastrarUsuario(void);
 void pesquisarUsuario(void);
 void alterarUsuario(void);
 void excluirUsuario(void);
-void ler_Cpf (char* cpf);
-void ler_Nome (char* nome);
-void ler_Email (char* email);
-void ler_Nasc (char* nasc);
-void ler_Fone (char* fone);
+void ler_Cpf (char*);
+void ler_Nome (char*);
+void ler_Email (char*);
+void ler_Nasc (char*);
+void ler_Fone (char*);
 

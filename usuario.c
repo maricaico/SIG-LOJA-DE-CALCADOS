@@ -51,31 +51,6 @@ void menuUsuario(void) {
 
 
 
-void cadastrarUsuario(void) {
-	// função ainda em desenvolvimento
-	tela_cadastrar_usuario();
-}
-
-
-void pesquisarUsuario(void) {
-	// função ainda em desenvolvimento
-	tela_pesquisar_usuario();
-}
-
-
-void alterarUsuario(void) {
-	// função ainda em desenvolvimento
-	tela_alterar_usuario();
-}
-
-
-void excluirUsuario(void) {
-	// função ainda em desenvolvimento
-	tela_excluir_usuario();
-}
-
-
-
 char tela_menu_usuario(void) {
     char op;
     limpaTela();
@@ -121,11 +96,7 @@ char tela_menu_usuario(void) {
 
 
  void tela_cadastrar_usuario(void) {
-    char cpf[12];
-	char nome[50];
-	char email[40];
-	char nasc[11];
-	char fone[12];
+    Usuario *usuario;
 
     limpaTela();
     printf("\n");
@@ -147,16 +118,18 @@ char tela_menu_usuario(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-   
-    ler_Cpf(cpf);
 
-    ler_Nome(nome);
+    usuario = (Usuario*) malloc(sizeof(Usuario));
 
-    ler_Email(email);
+    ler_Cpf(usuario->cpf);
 
-    ler_Nasc(nasc);
+    ler_Nome(usuario->nome);
 
-    ler_Fone(fone);
+    ler_Email(usuario->email);
+
+    ler_Nasc(usuario->nasc);
+
+    ler_Fone(usuario->fone);
 
 
     printf("***                                                                         ***\n");
