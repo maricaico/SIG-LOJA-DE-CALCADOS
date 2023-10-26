@@ -176,3 +176,66 @@ int validarEmail(char* email) {
   }
   return false;
 }
+
+/// Função para Validação de Código de Barras
+
+
+int validarCod(char* cod) {
+  int tam;
+
+  tam = strlen(cod);
+  if (tam < 12 || tam > 13) {
+    return false;
+  }
+  for (int i = 0; i < tam; i++) {
+    if (!ehDigito(cod[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+//Função adaptada do código do professsor Flávius 
+
+int validarDescr(char* descr) {
+  for (int i=0; descr[i]!='\0'; i++) {
+    if (!ehLetra(descr[i])) {
+      return false;
+    }
+
+  }
+  return true;
+}
+
+
+
+int validarValor(char* valor) {
+  int tam = strlen(valor);
+
+  // Verifica se o tamanho da string está no intervalo válido para um valor monetário (3 a 5 caracteres).
+  if (tam < 3 || tam > 5) {
+    return 0; // Formato inválido.
+  }
+
+  // Verifica se o terceiro caractere é um ponto.
+  if (valor[2] != '.') {
+    return 0; // Formato inválido.
+  }
+
+  // Verifica se os caracteres antes e depois do ponto são dígitos numéricos.
+  for (int i = 0; i < tam; i++) {
+    if ((i != 2) && !ehDigito(valor[i])) {
+      return 0; // Formato inválido.
+    }
+  }
+
+  return 1; // Formato monetário válido.
+}
+
+
+
+
+
+
+

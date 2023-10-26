@@ -340,6 +340,7 @@ void ler_fone (char* fone) {
     fgets (fone, 12, stdin);
 
     while (!validarFone (fone)) {
+        fflush (stdin);
         printf("Erro! Digite novamente: ");
         fgets (fone, 12, stdin);
     

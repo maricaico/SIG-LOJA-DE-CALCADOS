@@ -350,8 +350,8 @@ void ler_Fone (char* fone) {
     fgets (fone, 12, stdin);
 
     while (!validarFone (fone)) {
-        printf("Erro! Digite novamente: ");
-        fgets (fone, 12, stdin);
+      printf("Erro! Digite novamente: ");
+      fgets (fone, 12, stdin);
     
     }
 } 

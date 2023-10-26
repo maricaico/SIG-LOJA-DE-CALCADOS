@@ -9,15 +9,24 @@
 ///////////                                                                         ////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include "produto.h"
+#include "util.h"
 
 
 ////
 ////// Funções do Módulo Produto
 //////
+
+
+void ler_cod(char*);
+void ler_descr(char*);
+void ler_quant(int*);
+void ler_valor(float*);
 
 
 void menuProduto(void) {
@@ -78,14 +87,16 @@ char tela_menu_produto(void) {
     scanf("%c", &op);
     getchar();
     printf("\n");
-    printf("\t\t\t>>> ... Aguarde ...\n");
-    sleep(1);
+    delay(1);
     return op;
  }
 
 
+
 void tela_cadastrar_produto(void) {
-    system("clear||cls");
+    Produto* produto;
+
+    limpaTela();
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -104,27 +115,26 @@ void tela_cadastrar_produto(void) {
     printf("***                |      CADASTRAR PRODUTO        |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Nome do Produto:                                             ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Código do produto:                                           ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Preço de Venda:                                              ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Quantidade:                                                  ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Cor:                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Modelo:                                                      ***\n");
-    printf("***                                                                         ***\n");
-    printf("***            Tamanho:                                                     ***\n"); 
+   
+    produto = (Produto*) malloc(sizeof(Produto));
+
+    ler_cod(produto->cod);
+
+    ler_descr(produto->descr);
+
+    ler_quant(produto->quant);
+
+    ler_valor(produto->valor);
+
+        
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
+    delay(1);
     getchar();
 }
+
 
 
 void tela_pesquisar_produto(void) {
@@ -223,4 +233,58 @@ void tela_excluir_produto(void) {
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
+}
+
+
+// Funções
+
+void ler_cod (char* cod) {
+    fflush(stdin);
+    printf("Digite o Código de Barras (Apenas Números): ");
+    fgets (cod, 13, stdin);
+    while (!validarCod (cod)) {
+        printf("Erro! Digite novamente: ");
+        fgets (cod, 13, stdin);
+    }
+    getchar();
+}
+
+
+// Função inspirada no código do Prof. Flavius
+
+void ler_descr(char* descr) {
+    fflush(stdin);
+    printf("Digite a descrição do produto:: ");
+    fgets(descr, 50, stdin); 
+    // Remove o caractere de nova linha do final, se estiver presente
+    int tam = strlen(descr);
+    if (tam > 0 && descr[tam - 1] == '\n') {  
+        descr[tam - 1] = '\0';
+        fflush(stdin);
+    }
+    while (!validarDescr(descr)) {
+        printf("Descrição inválida: %s\n", descr);
+        printf("Informe a descrição do produto novamente: ");
+        fflush(stdin);
+        fgets(descr, 50, stdin); 
+        // Remove o caractere de nova linha do final, se estiver presente
+        tam = strlen(descr);
+        if (tam > 0 && descr[tam - 1] == '\n') {
+            descr[tam - 1] = '\0';
+            fflush(stdin);
+    }
+  } 
+}
+
+
+
+void ler_quant(int* quant) {
+    printf("Quantidade: ");
+    scanf("%d", &quant);
+}
+
+
+void ler_valor(float* valor) {
+    printf("Digite o valor: R$ ");
+    scanf("%2.f", &valor);
 }
