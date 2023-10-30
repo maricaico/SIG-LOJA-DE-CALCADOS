@@ -21,12 +21,15 @@ struct cliente {
 	char email[40];
 	char nasc[11];
 	char fone[12];
+	char status;
+	char situacao[20];
 };
 
 
 void menuCliente(void);
 char tela_menu_cliente(void);
-void tela_cadastrar_cliente(void);
+void grava_cli(Cliente* cliente);
+void ler_Arqcliente(int num);
 void tela_pesquisar_cliente(void);
 void tela_alterar_cliente(void);
 void tela_excluir_cliente(void);
@@ -35,5 +38,9 @@ void ler_nome (char*);
 void ler_email (char*);
 void ler_nasc (char*);
 void ler_fone (char*);
+Cliente* tela_cadastrar_cliente(void);
+Cliente* achar_cli(char*);
 
+void exibe_cli(Cliente* cliente);
+void lista_todos(void);
 

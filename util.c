@@ -29,9 +29,7 @@ void delay(int segundos) {
 
 // Limpa a Tela
 void limpaTela(void) {
-  if (system("clear") || system("cls")) {
-
-  }
+  system("clear||cls");
 }
 
 
@@ -210,28 +208,28 @@ int validarDescr(char* descr) {
 
 
 
-int validarValor(char* valor) {
-  int tam = strlen(valor);
+///int validarValor(char* valor) {
+  ///int tam = strlen(valor);
 
   // Verifica se o tamanho da string está no intervalo válido para um valor monetário (3 a 5 caracteres).
-  if (tam < 3 || tam > 5) {
-    return 0; // Formato inválido.
-  }
+  //if (tam < 3 || tam > 5) {
+    //return 0; // Formato inválido.
+  //}
 
   // Verifica se o terceiro caractere é um ponto.
-  if (valor[2] != '.') {
-    return 0; // Formato inválido.
-  }
+  //if (valor[2] != '.') {
+    //return 0; // Formato inválido.
+  //}
 
   // Verifica se os caracteres antes e depois do ponto são dígitos numéricos.
-  for (int i = 0; i < tam; i++) {
-    if ((i != 2) && !ehDigito(valor[i])) {
-      return 0; // Formato inválido.
-    }
-  }
+  //for (int i = 0; i < tam; i++) {
+    //if ((i != 2) && !ehDigito(valor[i])) {
+      //return 0; // Formato inválido.
+    //}
+  //}
 
-  return 1; // Formato monetário válido.
-}
+  //return 1; // Formato monetário válido.
+//}
 
 
 

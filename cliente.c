@@ -18,6 +18,7 @@
 #include "util.h"
 
 
+
 /////
 ////// Funções do Módulo Cliente
 //////
@@ -32,18 +33,23 @@ void ler_fone (char*);
 
 
 void menuCliente(void) {
+    Cliente* cliente;
     char opcao;
     
     do {
         opcao = tela_menu_cliente();
         switch(opcao) {
-            case '1': 	tela_cadastrar_cliente();
+            case '1': 	cliente = tela_cadastrar_cliente();
+                        grava_cli(cliente);
                         break;
             case '2': 	tela_pesquisar_cliente();
                         break;
             case '3': 	tela_alterar_cliente();
                         break;
             case '4': 	tela_excluir_cliente();
+                        break;
+            case '5':   lista_todos();
+                        getchar();
                         break;
         } 		
     } while (opcao != '0');
@@ -75,11 +81,13 @@ char tela_menu_cliente(void) {
     printf("***                                                                         ***\n");
     printf("***            1. Cadastrar Cliente                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            2. Pesquisar Cliente                                         ***\n");
+    printf("***            2. Exibir Cliente                                            ***\n");
     printf("***                                                                         ***\n");
     printf("***            3. Alterar Cliente                                           ***\n");
     printf("***                                                                         ***\n");
     printf("***            4. Excluir Cliente                                           ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            5. Listar Clientes                                           ***\n");
     printf("***                                                                         ***\n");
     printf("***            0. Voltar ao Menu Anterior                                   ***\n");
     printf("***                                                                         ***\n");
@@ -94,7 +102,7 @@ char tela_menu_cliente(void) {
  }
 
 
-void tela_cadastrar_cliente(void) {
+Cliente* tela_cadastrar_cliente(void) {
     Cliente* cliente;
  
     limpaTela();
@@ -128,6 +136,7 @@ void tela_cadastrar_cliente(void) {
     ler_nasc(cliente->nasc);
 
     ler_fone(cliente->fone);
+
    
     
     printf("***                                                                         ***\n");
@@ -136,42 +145,53 @@ void tela_cadastrar_cliente(void) {
     printf("\n");
     delay(1);
     getchar();
+    cliente->status = 'a';
+    return cliente;
 }
 
 
+/// Função pesquisar cliente ainda em construção
 void tela_pesquisar_cliente(void) {
-   char cpf[12];
+  Cliente* cliente;
+  char cpf[12];
+  int tam;
 
-    limpaTela();
-    printf("\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("***                                                                         ***\n");
-    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
-    printf("***  ____________________________________________________________________   ***\n");
-    printf("*** |                                                                    |  ***\n");
-    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
-    printf("*** |____________________________________________________________________|  ***\n");
-    printf("***                                                                         ***\n");
-    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("***                                                                         ***\n");
-    printf("***                 _______________________________                         ***\n");
-    printf("***                |                               |                        ***\n");
-    printf("***                |      PESQUISAR CLIENTE        |                        ***\n");
-    printf("***                |_______________________________|                        ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                Digite o CPF (Apenas Números):  ");
-    scanf("%[0-9]", cpf);
-    getchar();
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("\n");
-    printf("\n");
-	delay(1);
+  limpaTela();
+  printf("\n");
+  printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+  printf("***                                                                         ***\n");
+  printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+  printf("***  ____________________________________________________________________   ***\n");
+  printf("*** |                                                                    |  ***\n");
+  printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+  printf("*** |____________________________________________________________________|  ***\n");
+  printf("***                                                                         ***\n");
+  printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+  printf("***                                                                         ***\n");
+  printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+  printf("***                                                                         ***\n");
+  printf("***                 _______________________________                         ***\n");
+  printf("***                |                               |                        ***\n");
+  printf("***                |      PESQUISAR CLIENTE        |                        ***\n");
+  printf("***                |_______________________________|                        ***\n");
+  printf("***                                                                         ***\n");
+  printf("***                                                                         ***\n");
+  printf("***                Digite o CPF (Apenas Números):  ");
+  fgets(cpf, 12, stdin);
+
+  tam = strlen(cpf);
+  cpf[tam - 1] = '\0';
+
+  cliente = achar_cli(cpf);
+     
+  if (cliente == NULL) {
+    printf("\nCliente não cadastrado!\n");
+  } else {
+    exibe_cli(cliente);
+  }
+  free(cliente);
 }
+
 
 
 void tela_alterar_cliente(void) {
@@ -205,8 +225,9 @@ void tela_alterar_cliente(void) {
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
     printf("\n");
-	delay(1);
+	  delay(1);
 }
+
 
 
 void tela_excluir_cliente(void) {
@@ -241,7 +262,7 @@ void tela_excluir_cliente(void) {
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
     printf("\n");
-	delay(1);
+	  delay(1);
 }
 
 // Funções
@@ -346,3 +367,108 @@ void ler_fone (char* fone) {
     
     }
 } 
+
+
+void grava_cli(Cliente* cliente) {
+  FILE* fp;
+  fp = fopen("clientes.dat", "ab");
+  if (fp == NULL) {
+    printf("\t\t\t>>> Processando as informações...\n");
+    sleep(1);
+    printf("\t\t\t>>> Erro!\n");
+    printf("\t\t\t>>> Não é possível continuar...\n");
+    getchar();
+  }
+  fwrite(cliente, sizeof(Cliente), 1, fp);
+  fclose(fp);
+  free(cliente);
+}
+
+
+///Função do Menu pesquisar em desenvolvimento
+
+Cliente* achar_cli(char* cpf) {
+  FILE* fp;
+  Cliente* cliente;
+  printf("\n = Cliente = \n");
+  cliente = (Cliente*) malloc(sizeof(Cliente));
+  fp = fopen("clientes.dat", "rb");
+  if (fp == NULL) {
+    printf("Ops! Erro na abertura do arquivo!\n");
+    printf("Não é possível continuar...\n");
+    exit(1);
+  }
+  while(fread(cliente, sizeof(Cliente), 1, fp)) {
+    if ((strcmp(cliente->cpf, cpf) == 0) && (cliente->status != 'x')) {
+      fclose(fp);
+      return cliente;
+    } 
+    fclose(fp);
+    free(cliente);  
+  }
+  return NULL;
+}
+
+
+
+void lista_todos(void) {
+  FILE* fp;
+  Cliente* cliente;
+  printf("\n = Lista de Clientes = \n");
+  cliente = (Cliente*) malloc(sizeof(Cliente));
+  fp = fopen("clientes.dat", "rb");
+  if (fp == NULL) {
+    printf("Erro na abertura do arquivo!/n");
+    printf("Não é possível continuar...\n");
+    exit(1);
+  }
+  while (fread(cliente, sizeof(Cliente), 1, fp)) { 
+    if (cliente->status != 'x') {
+      exibe_cli(cliente);
+      getchar();
+    }
+  }
+  fclose(fp);
+  free(cliente);
+}
+
+
+
+void exibe_cli(Cliente *cliente) {
+
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("*** Nome do Cliente: ");
+    printf("%s" ,cliente->nome);
+    printf("\n");
+    printf("*** CPF: ");
+    printf("%s" ,cliente->cpf);
+    printf("\n");
+    printf("*** Email: ");
+    printf("%s" ,cliente->email);
+    printf("\n");
+    printf("*** Data de Nascimento: ");
+    printf("%s" ,cliente->nasc);
+    printf("\n");
+    printf("*** Telefone: ");
+    printf("%s" ,cliente->fone);
+    printf("\n");
+    printf("===                                                                         ===\n");
+    printf("===============================================================================\n");
+    printf("\n");
+       
+  
+}
+
+
+

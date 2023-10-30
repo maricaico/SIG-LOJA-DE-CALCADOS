@@ -24,3 +24,5 @@ int validarCpf(char*);
 int validarNome(char*);
 int validarEmail(char*);
 int validarFone(char*);
+int validarCod(char*);
+int validarDescr(char*);
