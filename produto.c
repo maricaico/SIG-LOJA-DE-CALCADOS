@@ -280,11 +280,11 @@ void ler_descr(char* descr) {
 
 void ler_quant(int* quant) {
     printf("Quantidade: ");
-    scanf("%d", &quant);
+    scanf("%d", quant);
 }
 
 
 void ler_valor(float* valor) {
     printf("Digite o valor: R$ ");
-    scanf("%2.f", &valor);
+    scanf("%f", valor);
 }

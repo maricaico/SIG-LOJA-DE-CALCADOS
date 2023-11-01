@@ -42,7 +42,9 @@ void menuCliente(void) {
             case '1': 	cliente = tela_cadastrar_cliente();
                         grava_cli(cliente);
                         break;
-            case '2': 	tela_pesquisar_cliente();
+            case '2': 	cliente = tela_pesquisar_cliente();
+                        exibe_cli(cliente);
+                        free(cliente);
                         break;
             case '3': 	tela_alterar_cliente();
                         break;
@@ -81,7 +83,7 @@ char tela_menu_cliente(void) {
     printf("***                                                                         ***\n");
     printf("***            1. Cadastrar Cliente                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            2. Exibir Cliente                                            ***\n");
+    printf("***            2. Pesquisar Cliente                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***            3. Alterar Cliente                                           ***\n");
     printf("***                                                                         ***\n");
@@ -151,12 +153,11 @@ Cliente* tela_cadastrar_cliente(void) {
 
 
 /// Função pesquisar cliente ainda em construção
-void tela_pesquisar_cliente(void) {
+Cliente* tela_pesquisar_cliente(void) {
+  FILE* fp;
   Cliente* cliente;
   char cpf[12];
-  int tam;
-
-  limpaTela();
+  system("clear||cls");
   printf("\n");
   printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
   printf("***                                                                         ***\n");
@@ -176,20 +177,28 @@ void tela_pesquisar_cliente(void) {
   printf("***                |_______________________________|                        ***\n");
   printf("***                                                                         ***\n");
   printf("***                                                                         ***\n");
-  printf("***                Digite o CPF (Apenas Números):  ");
-  fgets(cpf, 12, stdin);
-
-  tam = strlen(cpf);
-  cpf[tam - 1] = '\0';
-
-  cliente = achar_cli(cpf);
-     
-  if (cliente == NULL) {
-    printf("\nCliente não cadastrado!\n");
+  printf("\n = Informe o CPF: \n");
+  fgets (cpf, 12, stdin);
+  getchar();
+  cliente = (Cliente*) malloc(sizeof(Cliente));
+  fp = fopen("clientes.dat", "rb");
+  if (fp == NULL) {
+    printf("Ops! Erro na abertura do arquivo!\n");
+    printf("Não é possível continuar...\n");
+    getchar();
   } else {
-    exibe_cli(cliente);
+      while(!feof(fp)) {
+        fread(cliente, sizeof(Cliente), 1, fp);
+        if((strcmp(cliente->cpf, cpf) == 0) && (cliente->status != 'x')) {
+          exibe_cli(cliente);
+          getchar();
+          fclose(fp);
+          return cliente;
+        }
+      }
   }
-  free(cliente);
+  fclose(fp);
+  return NULL;
 }
 
 
@@ -387,29 +396,6 @@ void grava_cli(Cliente* cliente) {
 
 ///Função do Menu pesquisar em desenvolvimento
 
-Cliente* achar_cli(char* cpf) {
-  FILE* fp;
-  Cliente* cliente;
-  printf("\n = Cliente = \n");
-  cliente = (Cliente*) malloc(sizeof(Cliente));
-  fp = fopen("clientes.dat", "rb");
-  if (fp == NULL) {
-    printf("Ops! Erro na abertura do arquivo!\n");
-    printf("Não é possível continuar...\n");
-    exit(1);
-  }
-  while(fread(cliente, sizeof(Cliente), 1, fp)) {
-    if ((strcmp(cliente->cpf, cpf) == 0) && (cliente->status != 'x')) {
-      fclose(fp);
-      return cliente;
-    } 
-    fclose(fp);
-    free(cliente);  
-  }
-  return NULL;
-}
-
-
 
 void lista_todos(void) {
   FILE* fp;
@@ -436,6 +422,7 @@ void lista_todos(void) {
 
 void exibe_cli(Cliente *cliente) {
 
+    char situacao[20];
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
     printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
@@ -448,26 +435,38 @@ void exibe_cli(Cliente *cliente) {
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
-    printf("*** Nome do Cliente: ");
-    printf("%s" ,cliente->nome);
+  if ((cliente == NULL) || (cliente->status == 'x')) {
+      printf("\n Cliente não encontrado!\n");
+      getchar();
+  } else {
+      printf("\n*** Cliente Cadastrado***\n");
+      printf("\n");
+      printf("*** Nome do Cliente: ");
+      printf("%s" ,cliente->nome);
+      printf("\n");
+      printf("*** CPF: ");
+      printf("%s" ,cliente->cpf);
+      printf("\n");
+      printf("*** Email: ");
+      printf("%s" ,cliente->email);
+      printf("\n");
+      printf("*** Data de Nascimento: ");
+      printf("%s" ,cliente->nasc);
+      printf("\n");
+      printf("*** Telefone: ");
+      printf("%s" ,cliente->fone);
+    if (cliente->status == 'a') {
+      strcpy(situacao, "Cadastrado Ativo");
+    } else {
+      strcpy(situacao, "Não Informado");
+    }
+    printf("Status do cliente: %s\n", situacao);
     printf("\n");
-    printf("*** CPF: ");
-    printf("%s" ,cliente->cpf);
-    printf("\n");
-    printf("*** Email: ");
-    printf("%s" ,cliente->email);
-    printf("\n");
-    printf("*** Data de Nascimento: ");
-    printf("%s" ,cliente->nasc);
-    printf("\n");
-    printf("*** Telefone: ");
-    printf("%s" ,cliente->fone);
     printf("\n");
     printf("===                                                                         ===\n");
     printf("===============================================================================\n");
     printf("\n");
-       
-  
+  }   
 }
 
 
