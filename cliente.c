@@ -187,7 +187,7 @@ Cliente* tela_pesquisar_cliente(void) {
   if (fp == NULL) {
     printf("Ops! Erro na abertura do arquivo!\n");
     printf("Não é possível continuar...\n");
-    printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+    printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
     getchar();
   } else {
       while(!feof(fp)) {
@@ -232,7 +232,7 @@ void tela_alterar_cliente(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***Digite o CPF do cliente que deseja alterar: ");
+    printf("***           Digite o CPF do cliente que deseja alterar: ");
     fgets(cpf, 12, stdin);
     getchar();
     fp = fopen("clientes.dat", "r+b");
@@ -241,7 +241,7 @@ void tela_alterar_cliente(void) {
       sleep(1);
       printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
       printf("\t\t\t*** Não é possível continuar...\n");
-      printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+      printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
       getchar();
     } else {
       while (fread(cliente, sizeof(Cliente), 1, fp) == 1) {
@@ -287,8 +287,10 @@ void tela_alterar_cliente(void) {
 
 void tela_excluir_cliente(void) {
     char cpf[12];
-
-    limpaTela();
+    Cliente* cliente = (Cliente*) malloc(sizeof(Cliente));
+    FILE* fp;
+    int achou = 0;
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -310,14 +312,41 @@ void tela_excluir_cliente(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***                Digite o CPF (Apenas Números):  ");
-    scanf("%[0-9]", cpf);
+    fgets(cpf, 12, stdin);
     getchar();
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("\n");
-    printf("\n");
-	  delay(1);
+    fp = fopen("clientes.dat", "r+b");
+    if (fp == NULL) {
+      printf("\t\t\t*** Processando as informações...\n");
+      sleep(1);
+      printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
+      printf("\t\t\t*** Não é possível continuar...\n");
+      printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+      getchar();
+    } else {
+      while (fread(cliente, sizeof(Cliente), 1, fp) == 1) {
+        if(strcmp(cliente->cpf, cpf) == 0) {
+          printf("\n");
+          printf("\t\t\t*** Cliente Encontrado ***\n");
+          printf("\n");
+          cliente->status = 'i';
+          fseek(fp, -sizeof(Cliente), SEEK_CUR);
+          fwrite(cliente, sizeof(Cliente), 1, fp);
+          achou = 1;
+          break;
+        }
+      }
+    }
+    if (!achou) {
+        printf("\n");
+        printf("\t\t\tCPF não encontrado!\n");
+    } else {
+        printf("\n");
+        printf("\t\t\tCliente excluído com sucesso!\n");
+    }
+  printf("\n");
+  printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+  getchar();
+  fclose(fp);
 }
 
 // Funções
@@ -503,11 +532,13 @@ void exibe_cli(Cliente *cliente) {
       printf("%s" ,cliente->nasc);
       printf("\n");
       printf("*** Telefone: ");
+      printf("\n");
       printf("%s" ,cliente->fone);
+      printf("\n");
     if (cliente->status == 'a') {
       strcpy(situacao, "Cadastrado Ativo");
     } else {
-      strcpy(situacao, "Não Informado");
+      strcpy(situacao, "Cadastro Inativo");
     }
     printf("Status do cliente: %s\n", situacao);
     printf("\n");
