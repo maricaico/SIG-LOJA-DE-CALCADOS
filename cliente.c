@@ -139,20 +139,22 @@ Cliente* tela_cadastrar_cliente(void) {
 
     ler_fone(cliente->fone);
 
-   
+    cliente->status = 'a';
     
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
     delay(1);
+    printf("\t\t\t*** Cliente Cadastrado com sucesso!\n");
+    printf("\n");
+    printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
     getchar();
-    cliente->status = 'a';
     return cliente;
 }
 
 
-/// Função pesquisar cliente ainda em construção
+
 Cliente* tela_pesquisar_cliente(void) {
   FILE* fp;
   Cliente* cliente;
@@ -185,12 +187,14 @@ Cliente* tela_pesquisar_cliente(void) {
   if (fp == NULL) {
     printf("Ops! Erro na abertura do arquivo!\n");
     printf("Não é possível continuar...\n");
+    printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
     getchar();
   } else {
       while(!feof(fp)) {
         fread(cliente, sizeof(Cliente), 1, fp);
         if((strcmp(cliente->cpf, cpf) == 0) && (cliente->status != 'x')) {
           exibe_cli(cliente);
+          printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
           getchar();
           fclose(fp);
           return cliente;
@@ -205,8 +209,10 @@ Cliente* tela_pesquisar_cliente(void) {
 
 void tela_alterar_cliente(void) {
     char cpf[12];
-
-    limpaTela();
+    Cliente* cliente = (Cliente*) malloc(sizeof(Cliente));
+    FILE* fp;
+    int achou = 0;
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -226,15 +232,55 @@ void tela_alterar_cliente(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***                Digite o CPF (Apenas Números):  ");
-    scanf("%[0-9]", cpf);
+    printf("***Digite o CPF do cliente que deseja alterar: ");
+    fgets(cpf, 12, stdin);
     getchar();
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("\n");
-    printf("\n");
-	  delay(1);
+    fp = fopen("clientes.dat", "r+b");
+    if (fp == NULL) {
+      printf("\t\t\t*** Processando as informações...\n");
+      sleep(1);
+      printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
+      printf("\t\t\t*** Não é possível continuar...\n");
+      printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+      getchar();
+    } else {
+      while (fread(cliente, sizeof(Cliente), 1, fp) == 1) {
+        if(strcmp(cliente->cpf, cpf) == 0) {
+          printf("\n");
+          printf("\t\t\t*** Cliente Encontrado ***\n");
+          printf("\t\t\t*** Refaça o Cadastro ***\n");
+          printf("\n");
+
+          ler_cpf(cliente->cpf);
+
+          ler_nome(cliente->nome);
+
+          ler_email(cliente->email);
+
+          ler_nasc(cliente->nasc);
+
+          ler_fone(cliente->fone);
+
+          cliente->status = 'a';
+
+          fseek(fp, -sizeof(Cliente), SEEK_CUR);
+          fwrite(cliente, sizeof(Cliente), 1, fp);
+          achou = 1;
+          break;
+        }
+      }
+    }
+    if (!achou) {
+        printf("\n");
+        printf("\t\t\t CPF não encontrado!\n");
+    } else {
+        printf("\n");
+        printf("\t\t\t Cliente atualizado com sucesso!\n");
+    }
+  printf("\n");
+  printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+  getchar();
+  fclose(fp);
 }
 
 
@@ -411,6 +457,7 @@ void lista_todos(void) {
   while (fread(cliente, sizeof(Cliente), 1, fp)) { 
     if (cliente->status != 'x') {
       exibe_cli(cliente);
+      printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
       getchar();
     }
   }
@@ -437,6 +484,8 @@ void exibe_cli(Cliente *cliente) {
     printf("***                                                                         ***\n");
   if ((cliente == NULL) || (cliente->status == 'x')) {
       printf("\n Cliente não encontrado!\n");
+      printf("\n");
+      printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
       getchar();
   } else {
       printf("\n*** Cliente Cadastrado***\n");
@@ -461,10 +510,6 @@ void exibe_cli(Cliente *cliente) {
       strcpy(situacao, "Não Informado");
     }
     printf("Status do cliente: %s\n", situacao);
-    printf("\n");
-    printf("\n");
-    printf("===                                                                         ===\n");
-    printf("===============================================================================\n");
     printf("\n");
   }   
 }
