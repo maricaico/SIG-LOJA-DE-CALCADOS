@@ -44,7 +44,6 @@ void menuCliente(void) {
                         break;
             case '2': 	cliente = tela_pesquisar_cliente();
                         exibe_cli(cliente);
-                        free(cliente);
                         break;
             case '3': 	tela_alterar_cliente();
                         break;
@@ -156,53 +155,55 @@ Cliente* tela_cadastrar_cliente(void) {
 
 
 Cliente* tela_pesquisar_cliente(void) {
-  FILE* fp;
-  Cliente* cliente;
-  char cpf[12];
-  system("clear||cls");
-  printf("\n");
-  printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-  printf("***                                                                         ***\n");
-  printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
-  printf("***  ____________________________________________________________________   ***\n");
-  printf("*** |                                                                    |  ***\n");
-  printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
-  printf("*** |____________________________________________________________________|  ***\n");
-  printf("***                                                                         ***\n");
-  printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
-  printf("***                                                                         ***\n");
-  printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-  printf("***                                                                         ***\n");
-  printf("***                 _______________________________                         ***\n");
-  printf("***                |                               |                        ***\n");
-  printf("***                |      PESQUISAR CLIENTE        |                        ***\n");
-  printf("***                |_______________________________|                        ***\n");
-  printf("***                                                                         ***\n");
-  printf("***                                                                         ***\n");
-  printf("\n = Informe o CPF: \n");
-  fgets (cpf, 12, stdin);
-  getchar();
-  cliente = (Cliente*) malloc(sizeof(Cliente));
-  fp = fopen("clientes.dat", "rb");
-  if (fp == NULL) {
-    printf("Ops! Erro na abertura do arquivo!\n");
-    printf("Não é possível continuar...\n");
-    printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+    FILE* fp;
+    Cliente* cliente;
+    char cpf[12];
+    system("clear||cls");
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |      PESQUISAR CLIENTE        |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("\n = Informe o CPF do cliente que deseja pesquisar: \n");
+    fgets (cpf, 12, stdin);
     getchar();
-  } else {
-      while(!feof(fp)) {
-        fread(cliente, sizeof(Cliente), 1, fp);
-        if((strcmp(cliente->cpf, cpf) == 0) && (cliente->status != 'x')) {
-          exibe_cli(cliente);
-          printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
-          getchar();
-          fclose(fp);
-          return cliente;
+    cliente = (Cliente*) malloc(sizeof(Cliente));
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+      getchar();
+    } else {
+        while(!feof(fp)) {
+          fread(cliente, sizeof(Cliente), 1, fp);
+          if((strcmp(cliente->cpf, cpf) == 0) && (cliente->status != 'x')) {
+            exibe_cli(cliente);
+            printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+            getchar();
+            fclose(fp);
+            free(cliente);
+            return cliente;
+          } 
         }
-      }
-  }
-  fclose(fp);
-  return NULL;
+    }
+    fclose(fp);
+    free(cliente); ///
+    return NULL;
 }
 
 
@@ -311,7 +312,7 @@ void tela_excluir_cliente(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***                Digite o CPF (Apenas Números):  ");
+    printf("***                Digite o CPF do Cliente:  ");
     fgets(cpf, 12, stdin);
     getchar();
     fp = fopen("clientes.dat", "r+b");
@@ -438,7 +439,6 @@ void ler_nasc(char* nasc) {
 
 
 
-
 void ler_fone (char* fone) {
     fflush (stdin);
     printf("Digite o Telefone (Apenas Números): ");
@@ -468,8 +468,6 @@ void grava_cli(Cliente* cliente) {
   free(cliente);
 }
 
-
-///Função do Menu pesquisar em desenvolvimento
 
 
 void lista_todos(void) {

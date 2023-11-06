@@ -32,18 +32,24 @@ void ler_Fone (char*);
 
 
 void menuUsuario(void) {
+    Usuario* usuario;
     char opcao;
 
     do {
         opcao = tela_menu_usuario();
         switch(opcao) {
-            case '1': 	tela_cadastrar_usuario();
+            case '1': 	usuario = tela_cadastrar_usuario();
+                        grava_usu(usuario);
                         break;
-            case '2': 	tela_pesquisar_usuario();
+            case '2': 	usuario = tela_pesquisar_usuario();
+                        exibe_usu(usuario);
                         break;
             case '3': 	tela_alterar_usuario();
                         break;
             case '4': 	tela_excluir_usuario();
+                        break;
+            case '5':   lista_tods();
+                        getchar();
                         break;
         } 		
     } while (opcao != '0');
@@ -81,6 +87,8 @@ char tela_menu_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***            4. Excluir Usuário                                           ***\n");
     printf("***                                                                         ***\n");
+    printf("***            5. Listar Clientes                                           ***\n");
+    printf("***                                                                         ***\n");
     printf("***            0. Voltar ao Menu Anterior                                   ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
@@ -95,8 +103,8 @@ char tela_menu_usuario(void) {
 
 
 
- void tela_cadastrar_usuario(void) {
-    Usuario *usuario;
+Usuario* tela_cadastrar_usuario(void) {
+    Usuario* usuario;
 
     limpaTela();
     printf("\n");
@@ -131,21 +139,26 @@ char tela_menu_usuario(void) {
 
     ler_Fone(usuario->fone);
 
+    usuario-> status = 'a';
 
-    printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
     delay(1);
+    printf("\t\t\t*** Usuário Cadastrado com sucesso!\n");
+    printf("\n");
+    printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
     getchar();
+    return usuario;
 }
 
 
-void tela_pesquisar_usuario(void) {
-   char cpf[12];
-
-    limpaTela();
+Usuario* tela_pesquisar_usuario(void) {
+    FILE* fp;
+    Usuario* usuario;
+    char cpf[12];
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -165,24 +178,42 @@ void tela_pesquisar_usuario(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            Digite o CPF (Apenas Números):                               ***\n");
-    printf("***                                                                         ***\n");
-    scanf("%[0-9]", cpf);
+    printf("\n = Informe o CPF do Usuário: \n");
+    fgets (cpf, 12, stdin);
     getchar();
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("\n");
-    printf("\n");
-	delay(1);
+    usuario = (Usuario*) malloc(sizeof(Usuario));
+    fp = fopen("usuarios.dat", "rb");
+    if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+      getchar();
+    } else {
+        while(!feof(fp)) {
+          fread(usuario, sizeof(Usuario), 1, fp);
+          if((strcmp(usuario->cpf, cpf) == 0) && (usuario->status != 'x')) {
+            exibe_usu(usuario);
+            printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+            getchar();
+            fclose(fp);
+            free(usuario);
+            return usuario;
+          } 
+        }
+    }
+    fclose(fp);
+    free(usuario);
+    return NULL;
 }
 
 
 
 void tela_alterar_usuario(void) {
     char cpf[12];
-
-    limpaTela();
+    Usuario* usuario = (Usuario*) malloc(sizeof(Usuario));
+    FILE* fp;
+    int achei = 0;
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -202,25 +233,66 @@ void tela_alterar_usuario(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***            Digite o CPF (Apenas Números):                               ***\n");
-    printf("***                                                                         ***\n");
-    scanf("%[0-9]", cpf);
+    printf("***           Digite o CPF do usuário que deseja alterar: ");
+    fgets(cpf, 12, stdin);
     getchar();
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("\n");
-    printf("\n");
-	delay(1);
+    fp = fopen("usuarios.dat", "r+b");
+    if (fp == NULL) {
+      printf("\t\t\t*** Processando as informações...\n");
+      sleep(1);
+      printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
+      printf("\t\t\t*** Não é possível continuar...\n");
+      printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+      getchar();
+    } else {
+      while (fread(usuario, sizeof(Usuario), 1, fp) == 1) {
+        if(strcmp(usuario->cpf, cpf) == 0) {
+          printf("\n");
+          printf("\t\t\t*** Usuário Encontrado ***\n");
+          printf("\t\t\t*** Refaça o Cadastro ***\n");
+          printf("\n");
+
+          ler_Cpf(usuario->cpf);
+
+          ler_Nome(usuario->nome);
+
+          ler_Email(usuario->email);
+
+          ler_Nasc(usuario->nasc);
+
+          ler_Fone(usuario->fone);
+
+          usuario-> status = 'a';
+
+          fseek(fp, -sizeof(Usuario), SEEK_CUR);
+          fwrite(usuario, sizeof(Usuario), 1, fp);
+          achei = 1;
+          break;
+        }
+      }
+    }
+    if (!achei) {
+        printf("\n");
+        printf("\t\t\t CPF não encontrado!\n");
+    } else {
+        printf("\n");
+        printf("\t\t\t Usuário atualizado com sucesso!\n");
+    }
+  printf("\n");
+  printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+  getchar();
+  fclose(fp);
+  free(usuario);
 }
 
 
 
 void tela_excluir_usuario(void) {
     char cpf[12];
-
-    limpaTela();
-    printf("\n");
+    Usuario* usuario = (Usuario*) malloc(sizeof(Usuario));
+    FILE* fp;
+    int achei = 0;
+    system("clear||cls");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
     printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
@@ -240,16 +312,43 @@ void tela_excluir_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***                Informe o CPF (apenas números):                          ***\n");
-    printf("***                                                                         ***\n");
-    scanf("%[0-9]", cpf);
+    printf("***                Informe o CPF do Usuário: ");
+    fgets(cpf, 12, stdin);
     getchar();
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
-    printf("\n");
-    printf("\n");
-	delay(1);
+    fp = fopen("usuarios.dat", "r+b");
+    if (fp == NULL) {
+      printf("\t\t\t*** Processando as informações...\n");
+      sleep(1);
+      printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
+      printf("\t\t\t*** Não é possível continuar...\n");
+      printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+      getchar();
+    } else {
+      while (fread(usuario, sizeof(Usuario), 1, fp) == 1) {
+        if(strcmp(usuario->cpf, cpf) == 0) {
+          printf("\n");
+          printf("\t\t\t*** Usuário Encontrado ***\n");
+          printf("\n");
+          usuario->status = 'i';
+          fseek(fp, -sizeof(Usuario), SEEK_CUR);
+          fwrite(usuario, sizeof(Usuario), 1, fp);
+          achei = 1;
+          break;
+        }
+      }
+    }
+    if (!achei) {
+        printf("\n");
+        printf("\t\t\tUsuário não encontrado!\n");
+    } else {
+        printf("\n");
+        printf("\t\t\tUsuário excluído com sucesso!\n");
+    }
+  printf("\n");
+  printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+  getchar();
+  fclose(fp);
+  free(usuario);
 }
 
 
@@ -355,3 +454,95 @@ void ler_Fone (char* fone) {
     
     }
 } 
+
+
+
+void grava_usu(Usuario* usuario) {
+  FILE* fp;
+  fp = fopen("usuarios.dat", "ab");
+  if (fp == NULL) {
+    printf("\t\t\t>>> Processando as informações...\n");
+    sleep(1);
+    printf("\t\t\t>>> Erro!\n");
+    printf("\t\t\t>>> Não é possível continuar...\n");
+    getchar();
+  }
+  fwrite(usuario, sizeof(Usuario), 1, fp);
+  fclose(fp);
+  free(usuario);
+}
+
+
+
+void lista_tods(void) {
+  FILE* fp;
+  Usuario* usuario;
+  printf("\n = Lista de Usuários = \n");
+  usuario = (Usuario*) malloc(sizeof(Usuario));
+  fp = fopen("usuarios.dat", "rb");
+  if (fp == NULL) {
+    printf("Erro na abertura do arquivo!/n");
+    printf("Não é possível continuar...\n");
+    exit(1);
+  }
+  while (fread(usuario, sizeof(Usuario), 1, fp)) { 
+    if (usuario->status != 'x') {
+      exibe_usu(usuario);
+      printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+      getchar();
+    }
+  }
+  fclose(fp);
+  free(usuario);
+}
+
+
+
+void exibe_usu(Usuario *usuario) {
+
+    char situacao[20];
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+  if ((usuario == NULL) || (usuario->status == 'x')) {
+      printf("\n Usuário não encontrado!\n");
+      printf("\n");
+      printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+      getchar();
+  } else {
+      printf("\n*** Usuário Cadastrado***\n");
+      printf("\n");
+      printf("*** Nome do Usuário: ");
+      printf("%s" ,usuario->nome);
+      printf("\n");
+      printf("*** CPF: ");
+      printf("%s" ,usuario->cpf);
+      printf("\n");
+      printf("*** Email: ");
+      printf("%s" ,usuario->email);
+      printf("\n");
+      printf("*** Data de Nascimento: ");
+      printf("%s" ,usuario->nasc);
+      printf("\n");
+      printf("*** Telefone: ");
+      printf("\n");
+      printf("%s" ,usuario->fone);
+      printf("\n");
+    if (usuario->status == 'a') {
+      strcpy(situacao, "Cadastrado Ativo");
+    } else {
+      strcpy(situacao, "Cadastro Inativo");
+    }
+    printf("Status do cliente: %s\n", situacao);
+    printf("\n");
+  }   
+}
