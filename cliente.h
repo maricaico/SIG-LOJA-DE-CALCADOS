@@ -29,7 +29,6 @@ struct cliente {
 void menuCliente(void);
 char tela_menu_cliente(void);
 void grava_cli(Cliente* cliente);
-void ler_Arqcliente(int num);
 void tela_alterar_cliente(void);
 void tela_excluir_cliente(void);
 void ler_cpf (char*);

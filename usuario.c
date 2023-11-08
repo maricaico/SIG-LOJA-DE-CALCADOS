@@ -40,6 +40,7 @@ void menuUsuario(void) {
         switch(opcao) {
             case '1': 	usuario = tela_cadastrar_usuario();
                         grava_usu(usuario);
+                        free(usuario);
                         break;
             case '2': 	usuario = tela_pesquisar_usuario();
                         exibe_usu(usuario);
@@ -87,7 +88,7 @@ char tela_menu_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***            4. Excluir Usuário                                           ***\n");
     printf("***                                                                         ***\n");
-    printf("***            5. Listar Clientes                                           ***\n");
+    printf("***            5. Listar Usuários                                           ***\n");
     printf("***                                                                         ***\n");
     printf("***            0. Voltar ao Menu Anterior                                   ***\n");
     printf("***                                                                         ***\n");
@@ -143,12 +144,11 @@ Usuario* tela_cadastrar_usuario(void) {
 
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
+    printf("***                 Produto Cadastrado com sucesso!                         ***\n");
+    printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    delay(1);
-    printf("\t\t\t*** Usuário Cadastrado com sucesso!\n");
-    printf("\n");
-    printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+    sleep(1);
     getchar();
     return usuario;
 }
@@ -178,7 +178,7 @@ Usuario* tela_pesquisar_usuario(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("\n = Informe o CPF do Usuário: \n");
+    printf("***       Informe o CPF do usuário que deseja pesquisar: ");
     fgets (cpf, 12, stdin);
     getchar();
     usuario = (Usuario*) malloc(sizeof(Usuario));
@@ -279,7 +279,7 @@ void tela_alterar_usuario(void) {
         printf("\t\t\t Usuário atualizado com sucesso!\n");
     }
   printf("\n");
-  printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+  sleep(1);
   getchar();
   fclose(fp);
   free(usuario);
@@ -348,7 +348,6 @@ void tela_excluir_usuario(void) {
   printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
   getchar();
   fclose(fp);
-  free(usuario);
 }
 
 
@@ -469,7 +468,6 @@ void grava_usu(Usuario* usuario) {
   }
   fwrite(usuario, sizeof(Usuario), 1, fp);
   fclose(fp);
-  free(usuario);
 }
 
 
@@ -534,15 +532,14 @@ void exibe_usu(Usuario *usuario) {
       printf("%s" ,usuario->nasc);
       printf("\n");
       printf("*** Telefone: ");
-      printf("\n");
       printf("%s" ,usuario->fone);
       printf("\n");
     if (usuario->status == 'a') {
-      strcpy(situacao, "Cadastrado Ativo");
+      strcpy(situacao, "Cadastro Ativo");
     } else {
       strcpy(situacao, "Cadastro Inativo");
     }
-    printf("Status do cliente: %s\n", situacao);
+    printf("Status do Usuário: %s\n", situacao);
     printf("\n");
   }   
 }

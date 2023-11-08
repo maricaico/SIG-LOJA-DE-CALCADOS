@@ -19,18 +19,26 @@ typedef struct produto Produto;
 struct produto {
     char cod[13];
 	char descr[50];
-	int quant[4];
-	float valor[5];
+	int quant;
+	int tam;
+	float valor;
+	char status;
+	char situacao[20];
 };
 
 
 void menuProduto(void);
 char tela_menu_produto(void);
-void tela_cadastrar_produto(void);
-void tela_pesquisar_produto(void);
+void grava_prod(Produto* produto);
 void tela_alterar_produto(void);
 void tela_excluir_produto(void);
 void ler_cod(char*);
 void ler_descr(char*);
 void ler_quant(int*);
+void ler_tam(int*);
 void ler_valor(float*);
+Produto* tela_cadastrar_produto(void);
+Produto* tela_pesquisar_produto(void);
+
+void exibe_prod(Produto *produto);
+void lista_prod(void);
