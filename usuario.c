@@ -144,7 +144,7 @@ Usuario* tela_cadastrar_usuario(void) {
 
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***                 Produto Cadastrado com sucesso!                         ***\n");
+    printf("***                 Usuário Cadastrado com sucesso!                         ***\n");
     printf("***                                                                         ***\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
@@ -450,8 +450,8 @@ void ler_Fone (char* fone) {
     while (!validarFone (fone)) {
       printf("Erro! Digite novamente: ");
       fgets (fone, 12, stdin);
-    
     }
+    getchar();
 } 
 
 

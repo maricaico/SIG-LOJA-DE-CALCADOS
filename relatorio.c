@@ -13,6 +13,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "relatorio.h"
+#include "cliente.h"
+#include "usuario.h"
+#include "produto.h"
 
 ////
 ////// Funções do módulo Relatório
@@ -25,10 +28,19 @@ void menuRelatorio(void) {
         opcao = tela_menu_relatorio();
         switch(opcao) {
             case '1':   tela_relatorio_usuario();
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
                         break;
             case '2':   tela_relatorio_cliente();
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
                         break;
             case '3':   tela_relatorio_produto();
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
                         break;
             case '4':   tela_relatorio_venda();
                         break;
@@ -83,7 +95,8 @@ char tela_menu_relatorio(void) {
 
 
  void tela_relatorio_usuario(void) {
-    system("clear||cls");
+    FILE* fp;
+    Usuario* usuario;
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -102,17 +115,39 @@ char tela_menu_relatorio(void) {
     printf("***                |      RELATÓRIO DE USUÁRIOS    |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                   Em construção                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
+    usuario = (Usuario*) malloc(sizeof(Usuario));
+    fp = fopen("usuarios.dat", "rb");
+    if (fp == NULL) {
+        printf("\t\t\t>>> Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
+    printf("%-12s", "CPF");
+    printf("|");
+    printf("%-51s", "Nome do Usuário");
+    printf("|");
+    printf("%-12s", "Telefone");
+    printf("\n");
+    printf("%13s", "|");
+    printf("%51s", "|");
+    printf("\n");
+    while (fread(usuario, sizeof(Usuario), 1, fp)) { 
+        if (usuario->status != 'i') {
+            printf("%-12s", usuario->cpf);
+            printf("|");
+            printf("%-50s", usuario->nome);
+            printf("|");
+            printf("%-12s", usuario->fone);
+            printf("\n");
+        }
+    }
+    fclose(fp);
+    free(usuario);
     getchar();
-}
+ }
 
 
 void tela_relatorio_cliente(void) {
