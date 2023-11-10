@@ -10,15 +10,15 @@ Linux:
 
     gcc -c -Wall *.c
     gcc -c -Wall *.h
-    gcc -o hat *.o
-    ./hat
+    gcc -o sapataria *.o
+    ./sapataria
 
 Windows:
 
     gcc -c -Wall *.c
     gcc -c -Wall *.h
-    gcc -o hat *.o
-    hat.exe
+    gcc -o sapataria *.o
+    sapataria.exe
 
 Peço aos usuários que compilarem meu código, que considerem que até o momento
 o mesmo encontra-se somente com os módulos Usuários, Clientes e Produtos em funcionamento,
