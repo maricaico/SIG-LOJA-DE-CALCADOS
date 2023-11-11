@@ -439,7 +439,7 @@ void lista_prod(void) {
     exit(1);
   }
   while (fread(produto, sizeof(Produto), 1, fp)) { 
-    if (produto->status != 'x') {
+    if (produto->status != 'e') {
       exibe_prod(produto);
       printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
       getchar();

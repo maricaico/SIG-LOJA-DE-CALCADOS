@@ -482,7 +482,7 @@ void lista_todos(void) {
     exit(1);
   }
   while (fread(cliente, sizeof(Cliente), 1, fp)) { 
-    if (cliente->status != 'x') {
+    if (cliente->status != 'i') {
       exibe_cli(cliente);
       printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
       getchar();

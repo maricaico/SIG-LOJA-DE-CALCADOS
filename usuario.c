@@ -484,7 +484,7 @@ void lista_tods(void) {
     exit(1);
   }
   while (fread(usuario, sizeof(Usuario), 1, fp)) { 
-    if (usuario->status != 'x') {
+    if (usuario->status != 'i') {
       exibe_usu(usuario);
       printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
       getchar();
