@@ -151,7 +151,8 @@ char tela_menu_relatorio(void) {
 
 
 void tela_relatorio_cliente(void) {
-    system("clear||cls");
+    FILE* fp;
+    Cliente* cliente;
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -170,17 +171,39 @@ void tela_relatorio_cliente(void) {
     printf("***                |      RELATÓRIO DE CLIENTES    |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                Em construção                                            ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
+    cliente = (Cliente*) malloc(sizeof(Cliente));
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        printf("\t\t\t>>> Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
+    printf("%-12s", "CPF");
+    printf("|");
+    printf("%-51s", "Nome do Usuário");
+    printf("|");
+    printf("%-12s", "Telefone");
+    printf("\n");
+    printf("%13s", "|");
+    printf("%51s", "|");
+    printf("\n");
+    while (fread(cliente, sizeof(Cliente), 1, fp)) { 
+        if (cliente->status != 'i') {
+            printf("%-12s", cliente->cpf);
+            printf("|");
+            printf("%-50s", cliente->nome);
+            printf("|");
+            printf("%-12s", cliente->fone);
+            printf("\n");
+        }
+    }
+    fclose(fp);
+    free(cliente);
     getchar();
-}
+ }
 
 
 void tela_relatorio_produto(void) {
