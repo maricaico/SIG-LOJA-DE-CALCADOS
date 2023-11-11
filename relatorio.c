@@ -207,7 +207,8 @@ void tela_relatorio_cliente(void) {
 
 
 void tela_relatorio_produto(void) {
-    system("clear||cls");
+    FILE* fp;
+    Produto* produto;
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -226,17 +227,40 @@ void tela_relatorio_produto(void) {
     printf("***                |      RELATÓRIO DE PRODUTOS    |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                   Em construção                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
+    produto = (Produto*) malloc(sizeof(Produto));
+    fp = fopen("produtos.dat", "rb");
+    if (fp == NULL) {
+        printf("\t\t\t>>> Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
+    printf("%-13s", "Código");
+    printf("|");
+    printf("%-52s", "Descrição do produto");
+    printf("|");
+    printf("%-12s", "Quantidade");
+    printf("\n");
+    printf("%13s", "|");
+    printf("%51s", "|");
+    printf("\n");
+    while (fread(produto, sizeof(Produto), 1, fp)) { 
+        if (produto->status != 'e') {
+            printf("%-12s", produto->cod);
+            printf("|");
+            printf("%-50s", produto->descr);
+            printf("|");
+            printf("%-12d", produto->quant);
+            printf("\n");
+        }
+    }
+    fclose(fp);
+    free(produto);
     getchar();
-}
+ }
+
 
 
 void tela_relatorio_venda(void) {

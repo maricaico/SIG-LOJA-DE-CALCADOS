@@ -175,7 +175,7 @@ Produto* tela_pesquisar_produto(void) {
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***           Digite o Cód de Barras que deseja alterar: ");
+    printf("***           Digite o Cód de Barras que deseja pesquisar: ");
     fgets (cod, 13, stdin);
     getchar();
     produto = (Produto*) malloc(sizeof(Produto));
