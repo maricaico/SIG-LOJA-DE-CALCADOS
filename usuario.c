@@ -191,7 +191,7 @@ Usuario* tela_pesquisar_usuario(void) {
     } else {
         while(!feof(fp)) {
           fread(usuario, sizeof(Usuario), 1, fp);
-          if((strcmp(usuario->cpf, cpf) == 0) && (usuario->status != 'x')) {
+          if((strcmp(usuario->cpf, cpf) == 0) && (usuario->status != 'i')) {
             exibe_usu(usuario);
             printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
             getchar();
@@ -251,8 +251,6 @@ void tela_alterar_usuario(void) {
           printf("\t\t\t*** Usuário Encontrado ***\n");
           printf("\t\t\t*** Refaça o Cadastro ***\n");
           printf("\n");
-
-          ler_Cpf(usuario->cpf);
 
           ler_Nome(usuario->nome);
 
