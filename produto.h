@@ -17,7 +17,7 @@
 typedef struct produto Produto;
 
 struct produto {
-    char cod[13];
+    char cod[14];
 	char descr[50];
 	int quant;
 	int tam;

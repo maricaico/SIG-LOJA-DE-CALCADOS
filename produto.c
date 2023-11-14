@@ -154,7 +154,7 @@ Produto* tela_cadastrar_produto(void) {
 Produto* tela_pesquisar_produto(void) {
     FILE* fp;
     Produto* produto;
-    char cod[13];
+    char cod[14];
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -176,7 +176,7 @@ Produto* tela_pesquisar_produto(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***           Digite o Cód de Barras que deseja pesquisar: ");
-    fgets (cod, 13, stdin);
+    fgets (cod, 14, stdin);
     getchar();
     produto = (Produto*) malloc(sizeof(Produto));
     fp = fopen("produtos.dat", "rb");
@@ -188,7 +188,7 @@ Produto* tela_pesquisar_produto(void) {
     } else {
         while(!feof(fp)) {
           fread(produto, sizeof(Produto), 1, fp);
-          if((strcmp(produto->cod, cod) == 0) && (produto->status != 'x')) {
+          if((strcmp(produto->cod, cod) == 0) && (produto->status != 'e')) {
             exibe_prod(produto);
             printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
             getchar();
@@ -205,7 +205,7 @@ Produto* tela_pesquisar_produto(void) {
 
 
 void tela_alterar_produto(void) {
-    char cod[13];
+    char cod[14];
     Produto* produto = (Produto*) malloc(sizeof(Produto));
     FILE* fp;
     int ache = 0;
@@ -230,7 +230,7 @@ void tela_alterar_produto(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***    Digite o Código do Produto que deseja alterar: ");
-    fgets(cod, 13, stdin);
+    fgets(cod, 14, stdin);
     getchar();
     fp = fopen("produtos.dat", "r+b");
     if (fp == NULL) {
@@ -247,8 +247,6 @@ void tela_alterar_produto(void) {
           printf("\t\t\t*** Produto Encontrado ***\n");
           printf("\t\t\t*** Refaça o Cadastro ***\n");
           printf("\n");
-
-          ler_cod(produto->cod);
           
           ler_descr(produto->descr);
           
@@ -283,7 +281,7 @@ void tela_alterar_produto(void) {
 
 
 void tela_excluir_produto(void) {
-  char cod[13];
+  char cod[14];
   Produto* produto = (Produto*) malloc(sizeof(Produto));
   FILE* fp;
   int ache = 0;
@@ -309,7 +307,7 @@ void tela_excluir_produto(void) {
   printf("***                                                                         ***\n");
   printf("***                                                                         ***\n");
   printf("***       Digite o Código de Barras do Produto (Apenas Números): ");
-  fgets(cod, 13, stdin);
+  fgets(cod, 14, stdin);
   getchar();
   fp = fopen("produtos.dat", "r+b");
   if (fp == NULL) {
@@ -353,11 +351,11 @@ void tela_excluir_produto(void) {
 
 void ler_cod (char* cod) {
     fflush(stdin);
-    printf("Digite os 12 Números do Código de Barras: ");
-    fgets (cod, 13, stdin);
+    printf("Digite os 13 Números do Código de Barras: ");
+    fgets (cod, 14, stdin);
     while (!validarCod (cod)) {
         printf("Erro! Digite novamente: ");
-        fgets (cod, 13, stdin);
+        fgets (cod, 14, stdin);
     }
     getchar();
 }

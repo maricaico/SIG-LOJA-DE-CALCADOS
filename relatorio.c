@@ -237,22 +237,22 @@ void tela_relatorio_produto(void) {
         printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
         getchar();
     }
-    printf("%-13s", "Código");
+    printf("%-14s", "Código");
     printf("|");
     printf("%-52s", "Descrição do produto");
     printf("|");
     printf("%-12s", "Quantidade");
     printf("\n");
-    printf("%13s", "|");
+    printf("%14s", "|");
     printf("%51s", "|");
     printf("\n");
     while (fread(produto, sizeof(Produto), 1, fp)) { 
         if (produto->status != 'e') {
-            printf("%-12s", produto->cod);
+            printf("%-13s", produto->cod);
             printf("|");
             printf("%-50s", produto->descr);
             printf("|");
-            printf("%-12d", produto->quant);
+            printf("%-13d", produto->quant);
             printf("\n");
         }
     }
