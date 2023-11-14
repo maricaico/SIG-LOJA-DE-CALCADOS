@@ -191,7 +191,7 @@ Cliente* tela_pesquisar_cliente(void) {
     } else {
         while(!feof(fp)) {
           fread(cliente, sizeof(Cliente), 1, fp);
-          if((strcmp(cliente->cpf, cpf) == 0) && (cliente->status != 'x')) {
+          if((strcmp(cliente->cpf, cpf) == 0) && (cliente->status != 'i')) {
             exibe_cli(cliente);
             printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
             getchar();
@@ -251,8 +251,6 @@ void tela_alterar_cliente(void) {
           printf("\t\t\t*** Cliente Encontrado ***\n");
           printf("\t\t\t*** Refaça o Cadastro ***\n");
           printf("\n");
-
-          ler_cpf(cliente->cpf);
 
           ler_nome(cliente->nome);
 
