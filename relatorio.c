@@ -149,7 +149,6 @@ char relatorio_usuario(void) {
     printf("***                                                                         ***\n");
     printf("***            3. Relatório por Status Ativo                                ***\n");
     printf("***                                                                         ***\n");
-    printf("***            4. Relatório por Mês de Nascimento                           ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
