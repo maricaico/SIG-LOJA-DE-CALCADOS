@@ -287,9 +287,81 @@ void lista_status(char st) {
 
 
 
+void tela_relatorio_cliente(void){
+    char opcao;
+
+    do {
+        opcao = relatorio_cliente();
+        switch(opcao) {
+            case '1':   lista_cliente();
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
+                        break;
+            case '2':   lista_status_cl('i');
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
+                        break;
+            case '3':   lista_status_cl('a');
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
+                        break;
+          } 		
+    } while (opcao != '0');
+}
 
 
-void tela_relatorio_cliente(void) {
+
+char relatorio_cliente(void) {
+    char op;
+
+    system("clear||cls");
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |     RELATÓRIO DE CLIENTES     |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            1. Relatório por CPF, Nome e Fone                            ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            2. Relatório por Status Excluído                             ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            3. Relatório por Status Ativo                                ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            0. Voltar ao Menu Anterior                                   ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***            Escolha a opção desejada:  ");
+    scanf("%c", &op);
+    getchar();
+    printf("\n");
+    printf("\t\t\t>>> ... Aguarde ...\n");
+    sleep(1);
+    return op;
+
+}
+
+
+void lista_cliente(void) {
     FILE* fp;
     Cliente* cliente;
     printf("\n");
@@ -343,6 +415,68 @@ void tela_relatorio_cliente(void) {
     free(cliente);
     getchar();
  }
+
+
+ void lista_status_cl(char st) {
+    Cliente* cliente;
+    FILE* fp;
+
+    system("clear||cls");
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |     RELATÓRIO POR STATUS: %c   |                        ***\n", st);
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("\n");
+    getchar();
+    cliente = (Cliente*) malloc(sizeof(Cliente));
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        printf("\t\t\t>>> Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
+    printf("%-12s", "CPF");
+    printf("|");
+    printf("%-50s", "Nome do Cliente");
+    printf("|");
+    printf("%-12s", "Status");
+    printf("\n");
+    printf("%13s", "|");
+    printf("%51s", "|");
+    printf("\n");
+    while (fread(cliente, sizeof(Cliente), 1, fp)) { 
+        if (cliente->status == st) {
+            printf("%-12s", cliente->cpf);
+            printf("|");
+            printf("%-50s", cliente->nome);
+            printf("|");
+            printf("%c", cliente->status);
+            printf("\n");
+        }
+    }
+    fclose(fp);
+    free(cliente);
+    getchar();
+}
+
 
 
 void tela_relatorio_produto(void) {
