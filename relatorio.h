@@ -16,6 +16,9 @@
 void menuRelatorio(void);
 char tela_menu_relatorio(void);
 void tela_relatorio_usuario(void);
+char relatorio_usuario(void);
+void lista_usuario(void);
+void lista_status(char);
 void tela_relatorio_cliente(void);
 void tela_relatorio_produto(void);
 void tela_relatorio_venda(void);
