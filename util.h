@@ -26,3 +26,4 @@ int validarEmail(char*);
 int validarFone(char*);
 int validarCod(char*);
 int validarDescr(char*);
+int validarCupom(char*);

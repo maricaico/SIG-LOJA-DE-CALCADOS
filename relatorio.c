@@ -479,7 +479,79 @@ void lista_cliente(void) {
 
 
 
-void tela_relatorio_produto(void) {
+void tela_relatorio_produto(void){
+    char opcao;
+
+    do {
+        opcao = relatorio_produto();
+        switch(opcao) {
+            case '1':   lista_produto();
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
+                        break;
+            case '2':   lista_status_pr('e');
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
+                        break;
+            case '3':   lista_status_pr('c');
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
+                        break;
+          } 		
+    } while (opcao != '0');
+}
+
+
+
+char relatorio_produto(void) {
+    char op;
+
+    system("clear||cls");
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |     RELATÓRIO DE PRODUTOS     |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            1. Relatório por Cód, Descr e Quant                          ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            2. Relatório por Status Excluído                             ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            3. Relatório por Status Ativo                                ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            0. Voltar ao Menu Anterior                                   ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***            Escolha a opção desejada:  ");
+    scanf("%c", &op);
+    getchar();
+    printf("\n");
+    printf("\t\t\t>>> ... Aguarde ...\n");
+    sleep(1);
+    return op;
+
+}
+
+void lista_produto(void) {
     FILE* fp;
     Produto* produto;
     printf("\n");
@@ -500,7 +572,7 @@ void tela_relatorio_produto(void) {
     printf("***                |      RELATÓRIO DE PRODUTOS    |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
-    printf("\n");
+    getchar();
     produto = (Produto*) malloc(sizeof(Produto));
     fp = fopen("produtos.dat", "rb");
     if (fp == NULL) {
@@ -532,7 +604,69 @@ void tela_relatorio_produto(void) {
     fclose(fp);
     free(produto);
     getchar();
- }
+}
+
+
+
+
+void lista_status_pr(char st) {
+    Produto* produto;
+    FILE* fp;
+    system("clear||cls");
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |     RELATÓRIO POR STATUS: %c   |                        ***\n", st);
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("\n");
+    getchar();
+    produto = (Produto*) malloc(sizeof(Produto));
+    fp = fopen("produtos.dat", "rb");
+    if (fp == NULL) {
+        printf("\t\t\t>>> Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
+   printf("%-14s", "Código");
+    printf("|");
+    printf("%-52s", "Descrição do produto");
+    printf("|");
+    printf("%-12s", "Status");
+    printf("\n");
+    printf("%14s", "|");
+    printf("%51s", "|");
+    printf("\n");
+    while (fread(produto, sizeof(Produto), 1, fp)) { 
+        if (produto->status == st) {
+            printf("%-13s", produto->cod);
+            printf("|");
+            printf("%-50s", produto->descr);
+            printf("|");
+            printf("%-13c", produto->status);
+            printf("\n");
+        }
+    }
+    fclose(fp);
+    free(produto);
+    getchar();
+}
 
 
 

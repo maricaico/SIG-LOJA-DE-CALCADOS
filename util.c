@@ -195,6 +195,23 @@ int validarCod(char* cod) {
 }
 
 
+
+int validarCupom(char* cupom) {
+  int tam;
+
+  tam = strlen(cupom);
+  if (tam < 4 || tam > 5) {
+    return false;
+  }
+  for (int i = 0; i < tam; i++) {
+    if (!ehDigito(cupom[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
 //Função adaptada do código do professsor Flávius 
 
 int validarDescr(char* descr) {
@@ -206,6 +223,7 @@ int validarDescr(char* descr) {
   }
   return true;
 }
+
 
 
 
