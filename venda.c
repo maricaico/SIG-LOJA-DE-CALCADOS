@@ -129,6 +129,8 @@ char tela_menu_venda(void) {
     
     ler_Cod(venda->cod);
 
+    ler_Descr(venda->descr);
+
     ler_Quant(&(venda->quant));
 
     ler_Valor(&(venda->valor));
@@ -276,6 +278,7 @@ void tela_excluir_venda(void) {
 }
 
 
+
 // Funções
 
 
@@ -303,6 +306,31 @@ void ler_Cod (char* cod) {
     getchar();
 }
 
+
+
+void ler_Descr(char* descr) {
+    fflush(stdin);
+    printf("Digite a descrição do produto: ");
+    fgets(descr, 50, stdin); 
+    // Remove o caractere de nova linha do final, se estiver presente
+    int tam = strlen(descr);
+    if (tam > 0 && descr[tam - 1] == '\n') {  
+        descr[tam - 1] = '\0';
+        fflush(stdin);
+    }
+    while (!validarDescr(descr)) {
+        printf("Descrição inválida: %s\n", descr);
+        printf("Informe a descrição do produto novamente: ");
+        fflush(stdin);
+        fgets(descr, 50, stdin); 
+        // Remove o caractere de nova linha do final, se estiver presente
+        tam = strlen(descr);
+        if (tam > 0 && descr[tam - 1] == '\n') {
+            descr[tam - 1] = '\0';
+            fflush(stdin);
+    }
+  } 
+}
 
 void ler_CPf (char* cpf) {
     fflush(stdin);
@@ -390,6 +418,9 @@ void exibe_venda(Venda *venda) {
       printf("\n");
       printf("*** Código de Barras: ");
       printf("%s" ,venda->cod);
+      printf("\n");
+      printf("*** Descrição do Produto: ");
+      printf("%s" ,venda->descr);
       printf("\n");
       printf("*** Quantidade: ");
       printf("%d" ,venda->quant);

@@ -12,10 +12,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "relatorio.h"
 #include "cliente.h"
 #include "usuario.h"
 #include "produto.h"
+#include "venda.h"
 
 ////
 ////// Funções do módulo Relatório
@@ -670,7 +672,30 @@ void lista_status_pr(char st) {
 
 
 
-void tela_relatorio_venda(void) {
+void tela_relatorio_venda(void){
+    char opcao;
+
+    do {
+        opcao = relatorio_venda();
+        switch(opcao) {
+            case '1':   lista_venda();
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
+                        break;
+            case '2':   venda_cpf();
+                        printf("\n");
+                        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+                        getchar();
+                        break;
+        } 		
+    } while (opcao != '0');
+}
+
+
+char relatorio_venda(void) {
+    char op;
+
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -687,17 +712,169 @@ void tela_relatorio_venda(void) {
     printf("***                                                                         ***\n");
     printf("***                 _______________________________                         ***\n");
     printf("***                |                               |                        ***\n");
-    printf("***                |      RELATÓRIO DE VENDA       |                        ***\n");
+    printf("***                |     RELATÓRIO DE VENDAS       |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            1. Relatório por Cupom, Cod de Barras e CPF                  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            2. Relatório Vendas por CPF                                  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            0. Voltar ao Menu Anterior                                   ***\n");
+    printf("***                                                                         ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***            Escolha a opção desejada:  ");
+    scanf("%c", &op);
+    getchar();
+    printf("\n");
+    printf("\t\t\t>>> ... Aguarde ...\n");
+    sleep(1);
+    return op;
+
+}
+
+
+void lista_venda(void) {
+    FILE* fp;
+    Venda* venda;
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |      RELATÓRIO DE VENDAS      |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    getchar();
+    venda = (Venda*) malloc(sizeof(Venda));
+    fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("\t\t\t>>> Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
+    printf("%-13s", "Cupom");
+    printf("|");
+    printf("%-51s", "Cód de Barras");
+    printf("|");
+    printf("%-13s", "CPF");
+    printf("\n");
+    printf("%14s", "|");
+    printf("%51s", "|");
+    printf("\n");
+    while (fread(venda, sizeof(Venda), 1, fp)) { 
+        if (venda->status != 'e') {
+            printf("%-13s", venda->cupom);
+            printf("|");
+            printf("%-50s", venda->cod);
+            printf("|");
+            printf("%-13s", venda->cpf);
+            printf("\n");
+        }
+    }
+    fclose(fp);
+    free(venda);
+    getchar();
+}
+
+
+void venda_cpf(void) {
+    FILE* fp;
+    Cliente* cliente;
+    char cpf[12];
+    
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |      RELATÓRIO DE VENDAS      |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
-    printf("***                Em construção                                            ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
-    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***       Digite o CPF do cliente que deseja consultar: ");
+    fgets(cpf, 12, stdin);
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para voltar...\n");
     getchar();
+    if(access("clientes.dat", F_OK)!=1){
+        fp = fopen("clientes.dat", "r+b");
+        if (fp == NULL) {
+            printf("\t\t\t*** Processando as informações...\n");
+            sleep(1);
+            printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
+            printf("\t\t\t*** Não é possível continuar...\n");
+            printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+            getchar();
+        } else {
+            cliente = (Cliente*) malloc(sizeof(Cliente));
+            while (fread(cliente, sizeof(Cliente), 1, fp) == 1) {
+                if(cliente->status == 'a') {
+                    printf("\n");
+                    exibe_cli(cliente);
+                    achavenda(cliente->cpf);
+                    printf("\n");
+                }
+            }
+        }
+        free(cliente);    
+    }
+}    
+   
+
+
+void achavenda(char* cpf){
+    FILE* fp;
+    Venda* venda;
+    if(access("vendas.dat", F_OK)!=1){
+        fp = fopen("vendas.dat", "r+b");
+        if (fp == NULL) {
+            printf("\t\t\t*** Processando as informações...\n");
+            sleep(1);
+            printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
+            printf("\t\t\t*** Não é possível continuar...\n");
+            printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+            getchar();
+        } else {
+            venda = (Venda*) malloc(sizeof(Venda));
+            while (fread(venda, sizeof(Venda), 1, fp)) {
+                if ((strcmp(venda->cpf, cpf) == 0)) {
+                    exibe_venda(venda);
+                }
+            }
+        } 
+    }
+    fclose(fp);
 }
+
+
+
+
+

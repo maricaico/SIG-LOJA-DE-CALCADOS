@@ -28,3 +28,10 @@ void lista_status_pr(char);
 void tela_relatorio_cliente(void);
 void tela_relatorio_produto(void);
 void tela_relatorio_venda(void);
+char relatorio_venda(void);
+void lista_venda(void);
+void venda_cpf(void);
+void achavenda(char* cpf);
+
+
+

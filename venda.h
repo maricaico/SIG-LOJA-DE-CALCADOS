@@ -21,6 +21,7 @@ struct venda {
     char cod[14];
 	char cpf[12];
 	char cupom[5];
+	char descr[50];
 	int quant;
 	int tam;
 	float valor;
@@ -35,6 +36,7 @@ void grava_venda(Venda* venda);
 void tela_excluir_venda();
 void ler_Cupom(char*);
 void ler_Cod(char*);
+void ler_Descr(char*);
 void ler_CPf (char*);
 void ler_Quant(int*);
 void ler_Valor(float*);
