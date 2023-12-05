@@ -23,8 +23,13 @@
 ////// Funções do módulo Relatório
 ////
 
+void listar_venda_cpf(Venda*);
+
+
+
 void menuRelatorio(void) {
     char opcao;
+    
 
     do {
         opcao = tela_menu_relatorio();
@@ -674,6 +679,7 @@ void lista_status_pr(char st) {
 
 void tela_relatorio_venda(void){
     char opcao;
+    Venda* venda_x;
 
     do {
         opcao = relatorio_venda();
@@ -683,7 +689,7 @@ void tela_relatorio_venda(void){
                         printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
                         getchar();
                         break;
-            case '2':   venda_cpf();
+            case '2':   listar_venda_cpf(venda_x);
                         printf("\n");
                         printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
                         getchar();
@@ -742,6 +748,7 @@ char relatorio_venda(void) {
 void lista_venda(void) {
     FILE* fp;
     Venda* venda;
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -795,11 +802,12 @@ void lista_venda(void) {
 }
 
 
-void venda_cpf(void) {
+void listar_venda_cpf(Venda* venda) {
     FILE* fp;
-    Cliente* cliente;
+    char* nome_cliente;
+    char* nome_produto;
     char cpf[12];
-    
+    system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
     printf("***                                                                         ***\n");
@@ -815,7 +823,7 @@ void venda_cpf(void) {
     printf("***                                                                         ***\n");
     printf("***                 _______________________________                         ***\n");
     printf("***                |                               |                        ***\n");
-    printf("***                |      RELATÓRIO DE VENDAS      |                        ***\n");
+    printf("***                |  Listagem de vendas por CPF:  |                        ***\n");
     printf("***                |_______________________________|                        ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
@@ -824,56 +832,110 @@ void venda_cpf(void) {
     fgets(cpf, 12, stdin);
     printf("\n");
     getchar();
-    if(access("clientes.dat", F_OK)!=1){
-        fp = fopen("clientes.dat", "r+b");
-        if (fp == NULL) {
-            printf("\t\t\t*** Processando as informações...\n");
-            sleep(1);
-            printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
-            printf("\t\t\t*** Não é possível continuar...\n");
-            printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
-            getchar();
-        } else {
-            cliente = (Cliente*) malloc(sizeof(Cliente));
-            while (fread(cliente, sizeof(Cliente), 1, fp) == 1) {
-                if(cliente->status == 'a') {
-                    printf("\n");
-                    exibe_cli(cliente);
-                    achavenda(cliente->cpf);
-                    printf("\n");
-                }
-            }
-        }
-        free(cliente);    
+    venda = (Venda*) malloc(sizeof(Venda));
+    fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("\t\t\t*** Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
+        printf("\t\t\t*** Não é possível continuar...\n");
+        printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+        getchar();
     }
-}    
-   
-
-
-void achavenda(char* cpf){
-    FILE* fp;
-    Venda* venda;
-    if(access("vendas.dat", F_OK)!=1){
-        fp = fopen("vendas.dat", "r+b");
-        if (fp == NULL) {
-            printf("\t\t\t*** Processando as informações...\n");
-            sleep(1);
-            printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
-            printf("\t\t\t*** Não é possível continuar...\n");
-            printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
-            getchar();
-        } else {
-            venda = (Venda*) malloc(sizeof(Venda));
-            while (fread(venda, sizeof(Venda), 1, fp)) {
-                if ((strcmp(venda->cpf, cpf) == 0)) {
-                    exibe_venda(venda);
-                }
-            }
-        } 
+    printf("%-7s", "Cupom");
+    printf("|");
+    printf("%-14s", "Cód de Barras");
+    printf("|");
+    printf("%-19s", "Produto");
+    printf("|");
+    printf("%-19s", "Cliente");
+    printf("|");
+    printf("%-12s", "Valor");
+    printf("|");
+    printf("%-10s", "Data da Venda");
+    printf("\n");
+    printf("%8s", "|");
+    printf("%14s", "|");
+    printf("%20s", "|");
+    printf("%20s", "|");
+    printf("%13s", "|");
+    printf("\n");
+    while (fread(venda, sizeof(Venda), 1, fp) == 1){
+        if (strcmp(venda->cpf, cpf) == 0){
+            nome_cliente = get_cliente(cpf);
+            nome_produto = get_prod(venda->cod);
+            printf("%-8s", venda->cupom);
+            printf("%-15s", venda->cod);
+            printf("%-20s", nome_produto);
+            printf("%-20s", nome_cliente);
+            printf("R$ %-10.2f", venda->valor);
+            printf("%-17s", venda->dataHora);
+            printf("\n");
+        }
     }
     fclose(fp);
+    free(venda);
 }
 
+
+char* get_cliente(const char* cpf){
+    Cliente cliente;
+    FILE* fp = fopen("clientes.dat", "rb");
+
+   if (fp == NULL) {
+        printf("\t\t\t*** Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t*** Ops! Erro na abertura do arquivo!\n");
+        printf("\t\t\t*** Não é possível continuar...\n");
+        printf("\t\t\t*** Tecle <ENTER> para voltar...\n");
+        getchar();
+    }
+    while (fread(&cliente, sizeof(cliente), 1, fp) == 1){
+        if(strcmp(cliente.cpf, cpf) == 0){
+            char* x = (char*) malloc(strlen(cliente.nome) + 1);
+            if (x == NULL){
+                printf("Ocorreu um erro!\n");
+                fclose(fp);
+                return x;
+            }
+            strcpy(x, cliente.nome);
+            fclose(fp);
+            return x;
+    }
+  }
+  fclose(fp);
+  return NULL;
+}
+
+
+char *get_prod(const char* cod) {
+  Produto produto;
+  FILE* fp = fopen("produtos.dat", "rb");
+
+  if (fp == NULL) {
+    printf("\t\t\t>>> Processando as informações...\n");
+    sleep(1);
+    printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+  }
+  while (fread(&produto, sizeof(produto), 1, fp) == 1) {
+    if(strcmp(produto.cod, cod) == 0){ 
+      char* x = (char*)malloc(strlen(produto.descr) + 1);
+      if (x == NULL) {
+        printf("Ocorreu um erro.\n");
+        fclose(fp);
+        return NULL;
+      }
+      strcpy(x, produto.descr);
+      fclose(fp);
+      return x;
+      
+    }
+  }
+  fclose(fp);
+  return NULL;
+}
 
 
 

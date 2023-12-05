@@ -42,3 +42,4 @@ Produto* tela_pesquisar_produto(void);
 
 void exibe_prod(Produto *produto);
 void lista_prod(void);
+char * get_prod(const char* cod);
