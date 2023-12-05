@@ -23,6 +23,7 @@ struct cliente {
 	char fone[12];
 	char status;
 	char situacao[20];
+	Cliente* prox;
 };
 
 

@@ -315,6 +315,8 @@ void tela_relatorio_cliente(void){
                         printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
                         getchar();
                         break;
+            case '4':   lista_alfa();
+                        break;
           } 		
     } while (opcao != '0');
 }
@@ -350,7 +352,7 @@ char relatorio_cliente(void) {
     printf("***                                                                         ***\n");
     printf("***            3. Relatório por Status Ativo                                ***\n");
     printf("***                                                                         ***\n");
-    printf("***                                                                         ***\n");
+    printf("***            4. Relatório por Ordem Alfabética                            ***\n");
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***            0. Voltar ao Menu Anterior                                   ***\n");
@@ -483,6 +485,101 @@ void lista_cliente(void) {
     free(cliente);
     getchar();
 }
+
+
+void lista_alfa(void) {
+    FILE* fp = fopen("clientes.dat", "rb");
+    Cliente* novo_cli;
+    Cliente* lista;
+    system("clear||cls");
+    if (fp == NULL) {
+        printf("\t\t\t>>> Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
+    printf("\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***  ____________________________________________________________________   ***\n");
+    printf("*** |                                                                    |  ***\n");
+    printf("*** |     SISTEMA DE GESTÃO PARA LOJA DE SAPATOS DE SAPATOS MASCULINOS   |  ***\n");
+    printf("*** |____________________________________________________________________|  ***\n");
+    printf("***                                                                         ***\n");
+    printf("***  =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#   ***\n");
+    printf("***                                                                         ***\n");
+    printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
+    printf("***                                                                         ***\n");
+    printf("***                 _______________________________                         ***\n");
+    printf("***                |                               |                        ***\n");
+    printf("***                |RELATÓRIO EM ORDEM ALFABÉTICA  |                        ***\n");
+    printf("***                |_______________________________|                        ***\n");
+    printf("***                                                                         ***\n");
+    printf("\n");
+    printf("\n = Lista de Clientes em Ordem Alfabética = \n");
+    printf("\n");
+    printf("%-12s", "CPF");
+    printf("|");
+    printf("%-30s", "Nome do Cliente");
+    printf("\n");
+    printf("%13s", "|");
+    printf("\n");
+    lista = NULL;
+    novo_cli = (Cliente*)malloc(sizeof(Cliente));
+    if (novo_cli == NULL) {
+        printf("\t\t\t>>> Processando as informações...\n");
+        sleep(1);
+        printf("\t\t\t>>> Houve um erro ao alocar a memória!\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
+    while(fread(novo_cli, sizeof(Cliente), 1, fp) == 1) {
+        novo_cli->prox = NULL;
+        if ((lista == NULL) || (strcmp(novo_cli->nome, lista->nome) < 0)) {
+            novo_cli->prox = lista;
+            lista = novo_cli;
+        } else {
+            Cliente* ant = lista;
+            Cliente* atual = lista->prox;
+            while ((atual != NULL) && strcmp(atual->nome, novo_cli->nome) < 0) {
+                ant = atual;
+                atual = atual->prox;
+            }
+            ant->prox = novo_cli;
+            novo_cli->prox = atual;
+        }
+        novo_cli = (Cliente*)malloc(sizeof(Cliente));
+        if (novo_cli == NULL) {
+            printf("\t\t\t>>> Processando as informações...\n");
+            sleep(1);
+            printf("\t\t\t>>> Houve um erro ao alocar a memória!\n");
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar();
+    }
+  }
+  fclose(fp);
+  novo_cli = lista;
+  while(novo_cli != NULL) {
+    printf("%-12s", novo_cli->cpf);
+    printf("|");
+    printf("%-30s", novo_cli->nome);
+    printf("\n");
+    novo_cli = novo_cli->prox;
+  }
+  novo_cli = lista;
+  while (lista != NULL) {
+    lista = lista->prox;
+    free(novo_cli);
+    novo_cli = lista;
+  }
+  printf("\n");
+  printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+  getchar();
+}
+    
+ 
 
 
 
