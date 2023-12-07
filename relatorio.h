@@ -33,7 +33,7 @@ void lista_venda(void);
 void lista_alfa(void);
 
 char* get_cliente(const char* cpf);
-char *get_prod(const char* cod);
+
 
 
 

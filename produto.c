@@ -23,7 +23,7 @@
 //////
 
 
-void ler_cod(char*);
+void ler_cod(int*);
 void ler_descr(char*);
 void ler_quant(int*);
 void ler_tam(int*);
@@ -126,7 +126,7 @@ Produto* tela_cadastrar_produto(void) {
    
     produto = (Produto*) malloc(sizeof(Produto));
 
-    ler_cod(produto->cod);
+    ler_cod(&(produto->cod));
 
     ler_descr(produto->descr);
 
@@ -154,7 +154,7 @@ Produto* tela_cadastrar_produto(void) {
 Produto* tela_pesquisar_produto(void) {
     FILE* fp;
     Produto* produto;
-    char cod[14];
+    int cod;
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -176,7 +176,7 @@ Produto* tela_pesquisar_produto(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***           Digite o Cód de Barras que deseja pesquisar: ");
-    fgets (cod, 14, stdin);
+    scanf("%d", &cod);
     getchar();
     produto = (Produto*) malloc(sizeof(Produto));
     fp = fopen("produtos.dat", "rb");
@@ -188,7 +188,7 @@ Produto* tela_pesquisar_produto(void) {
     } else {
         while(!feof(fp)) {
           fread(produto, sizeof(Produto), 1, fp);
-          if((strcmp(produto->cod, cod) == 0) && (produto->status != 'e')) {
+          if((produto->cod == cod) && (produto->status != 'e')) {
             exibe_prod(produto);
             printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
             getchar();
@@ -205,7 +205,7 @@ Produto* tela_pesquisar_produto(void) {
 
 
 void tela_alterar_produto(void) {
-    char cod[14];
+    int cod;
     Produto* produto = (Produto*) malloc(sizeof(Produto));
     FILE* fp;
     int ache = 0;
@@ -230,7 +230,7 @@ void tela_alterar_produto(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***    Digite o Código do Produto que deseja alterar: ");
-    fgets(cod, 14, stdin);
+    scanf("%d", &cod);
     getchar();
     fp = fopen("produtos.dat", "r+b");
     if (fp == NULL) {
@@ -242,7 +242,7 @@ void tela_alterar_produto(void) {
       getchar();
     } else {
       while (fread(produto, sizeof(Produto), 1, fp) == 1) {
-        if(strcmp(produto->cod, cod) == 0) {
+        if((produto->cod == cod) && (produto->status != 'e')) {
           printf("\n");
           printf("\t\t\t*** Produto Encontrado ***\n");
           printf("\t\t\t*** Refaça o Cadastro ***\n");
@@ -281,7 +281,7 @@ void tela_alterar_produto(void) {
 
 
 void tela_excluir_produto(void) {
-  char cod[14];
+  int cod;
   Produto* produto = (Produto*) malloc(sizeof(Produto));
   FILE* fp;
   int ache = 0;
@@ -307,7 +307,7 @@ void tela_excluir_produto(void) {
   printf("***                                                                         ***\n");
   printf("***                                                                         ***\n");
   printf("***       Digite o Código de Barras do Produto (Apenas Números): ");
-  fgets(cod, 14, stdin);
+  scanf("%d", &cod);
   getchar();
   fp = fopen("produtos.dat", "r+b");
   if (fp == NULL) {
@@ -319,7 +319,7 @@ void tela_excluir_produto(void) {
     getchar();
   } else {
     while (fread(produto, sizeof(Produto), 1, fp) == 1) {
-      if(strcmp(produto->cod, cod) == 0) {
+      if(produto->cod == cod) {
         printf("\n");
         printf("\t\t\t*** Produto Encontrado ***\n");
         printf("\n");
@@ -349,14 +349,9 @@ void tela_excluir_produto(void) {
 
 // Funções
 
-void ler_cod (char* cod) {
-    fflush(stdin);
-    printf("Digite os 13 Números do Código de Barras: ");
-    fgets (cod, 14, stdin);
-    while (!validarCod (cod)) {
-        printf("Erro! Digite novamente: ");
-        fgets (cod, 14, stdin);
-    }
+void ler_cod (int* cod) {
+    printf("Código de Barras: ");
+    scanf("%d", cod);
     getchar();
 }
 
@@ -475,7 +470,7 @@ void exibe_prod(Produto *produto) {
       printf("%s" ,produto->descr);
       printf("\n");
       printf("*** Código de Barras: ");
-      printf("%s" ,produto->cod);
+      printf("%d" ,produto->cod);
       printf("\n");
       printf("*** Quantidade: ");
       printf("%d" ,produto->quant);
@@ -495,4 +490,6 @@ void exibe_prod(Produto *produto) {
     printf("\n");
   }   
 }
+
+
 

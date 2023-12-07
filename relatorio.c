@@ -697,7 +697,7 @@ void lista_produto(void) {
     printf("\n");
     while (fread(produto, sizeof(Produto), 1, fp)) { 
         if (produto->status != 'e') {
-            printf("%-13s", produto->cod);
+            printf("%-13d", produto->cod);
             printf("|");
             printf("%-50s", produto->descr);
             printf("|");
@@ -759,7 +759,7 @@ void lista_status_pr(char st) {
     printf("\n");
     while (fread(produto, sizeof(Produto), 1, fp)) { 
         if (produto->status == st) {
-            printf("%-13s", produto->cod);
+            printf("%-13d", produto->cod);
             printf("|");
             printf("%-50s", produto->descr);
             printf("|");
@@ -887,7 +887,7 @@ void lista_venda(void) {
         if (venda->status != 'e') {
             printf("%-13s", venda->cupom);
             printf("|");
-            printf("%-50s", venda->cod);
+            printf("%-50d", venda->cod);
             printf("|");
             printf("%-13s", venda->cpf);
             printf("\n");
@@ -962,7 +962,7 @@ void listar_venda_cpf(Venda* venda) {
             nome_cliente = get_cliente(cpf);
             nome_produto = get_prod(venda->cod);
             printf("%-8s", venda->cupom);
-            printf("%-15s", venda->cod);
+            printf("%-15d", venda->cod);
             printf("%-20s", nome_produto);
             printf("%-20s", nome_cliente);
             printf("R$ %-10.2f", venda->valor);
@@ -1005,34 +1005,6 @@ char* get_cliente(const char* cpf){
 }
 
 
-char *get_prod(const char* cod) {
-  Produto produto;
-  FILE* fp = fopen("produtos.dat", "rb");
-
-  if (fp == NULL) {
-    printf("\t\t\t>>> Processando as informações...\n");
-    sleep(1);
-    printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
-  }
-  while (fread(&produto, sizeof(produto), 1, fp) == 1) {
-    if(strcmp(produto.cod, cod) == 0){ 
-      char* x = (char*)malloc(strlen(produto.descr) + 1);
-      if (x == NULL) {
-        printf("Ocorreu um erro.\n");
-        fclose(fp);
-        return NULL;
-      }
-      strcpy(x, produto.descr);
-      fclose(fp);
-      return x;
-      
-    }
-  }
-  fclose(fp);
-  return NULL;
-}
 
 
 

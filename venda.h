@@ -18,13 +18,14 @@
 typedef struct venda Venda;
 
 struct venda {
-    char cod[14];
+    int cod;
 	char cpf[12];
 	char cupom[5];
 	char descr[50];
 	int quant;
 	int tam;
 	float valor;
+	float preco;
 	char status;
 	char dataHora[40];
 	char situacao[20];
@@ -35,11 +36,7 @@ char tela_menu_venda(void);
 void grava_venda(Venda* venda);
 void tela_excluir_venda();
 void ler_Cupom(char*);
-void ler_Cod(char*);
-void ler_Descr(char*);
 void ler_CPf (char*);
-void ler_Quant(int*);
-void ler_Valor(float*);
 Venda* tela_registrar_venda(void);
 Venda* tela_consultar_venda(void);
 void ler_Datahora(char*);
