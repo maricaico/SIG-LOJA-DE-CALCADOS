@@ -71,7 +71,7 @@ int ehLetra(char c) {
   }
 }
 
-
+// Função inspirada no código do Prof. Flavius
 int ehValido(char c) {
   if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
     return true;

@@ -35,10 +35,10 @@ void menuVenda(void);
 char tela_menu_venda(void);
 void grava_venda(Venda* venda);
 void tela_excluir_venda();
-void ler_Cupom(char*);
 void ler_CPf (char*);
 Venda* tela_registrar_venda(void);
 Venda* tela_consultar_venda(void);
 void ler_Datahora(char*);
 void exibe_venda(Venda *venda);
 void listar_vendas(void);
+

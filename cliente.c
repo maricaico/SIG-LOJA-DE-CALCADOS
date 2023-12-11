@@ -139,10 +139,7 @@ Cliente* tela_cadastrar_cliente(void) {
       cpfDuplicado = verificaCPFDuplicado(cliente->cpf);  //Verifica se o cpf é duplicado
       if (cpfDuplicado) {  //Se for duplicado da erro
           printf("CPF ja cadastrado.\n");
-          printf("=-=-=-=-=-=-=-=\n");
       } else if (validarCpf(cliente->cpf)) {  //Se nao for duplicado e for valido == Cpf valido
-          printf("CPF valido.\n");
-          printf("=-=-=-=-=-=-=-=\n");
           valido = 1;
       } else {
           printf("CPF invalido.\n");
@@ -371,13 +368,12 @@ void tela_excluir_cliente(void) {
 // Funções
 
 
-//Função baseada no código de https://github.com/GuiMedeirox
+//Função inspirada no código de https://github.com/GuiMedeirox
 
 int verificaCPFDuplicado(const char* cpf) {
 FILE* fp = fopen("clientes.dat", "rb");
 
 if (fp == NULL) {
-  printf("Erro ao abrir o arquivo para leitura.\n");
   return 0; 
 }
 

@@ -232,7 +232,7 @@ void lista_usuario(void){
  }
 
 
-void lista_status(char st) {
+void lista_status(char st) {  
     Usuario* usuario;
     FILE* fp;
 
@@ -426,7 +426,7 @@ void lista_cliente(void) {
  }
 
 
- void lista_status_cl(char st) {
+ void lista_status_cl(char st) {  //Cód desenvolvida com auxílio do Prof Flavius
     Cliente* cliente;
     FILE* fp;
 
@@ -487,7 +487,7 @@ void lista_cliente(void) {
 }
 
 
-void lista_alfa(void) {
+void lista_alfa(void) {  //Cód inspirado em https://github.com/AronSilva04
     FILE* fp = fopen("clientes.dat", "rb");
     Cliente* novo_cli;
     Cliente* lista;
@@ -713,7 +713,7 @@ void lista_produto(void) {
 
 
 
-void lista_status_pr(char st) {
+void lista_status_pr(char st) {  //Cód desenvolvida com auxílio do Prof Flavius
     Produto* produto;
     FILE* fp;
     system("clear||cls");
@@ -899,7 +899,7 @@ void lista_venda(void) {
 }
 
 
-void listar_venda_cpf(Venda* venda) {
+void listar_venda_cpf(Venda* venda) {  //Cód corrigido com base no Cód de https://github.com/AronSilva04
     FILE* fp;
     char* nome_cliente;
     char* nome_produto;
@@ -975,7 +975,7 @@ void listar_venda_cpf(Venda* venda) {
 }
 
 
-char* get_cliente(const char* cpf){
+char* get_cliente(const char* cpf){  //Função inspirada no Cód de https://github.com/AronSilva04
     Cliente cliente;
     FILE* fp = fopen("clientes.dat", "rb");
 

@@ -21,6 +21,9 @@ Windows:
     gcc -o sapataria *.o
     sapataria.exe
 
+## O CRUD usuário está em construção, tendo em vista que pode ser melhorado
+## Um exemplo de uso seria por gerentes e proprietários
+
 
 
 

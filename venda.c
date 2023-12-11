@@ -435,7 +435,7 @@ void exibe_venda(Venda *venda) {
 }
 
 
-char* get_prod(const long int cod) {
+char* get_prod(const long int cod) {  //Função inspirada no Cód de https://github.com/AronSilva04
   Produto produto;
   FILE* fp = fopen("produtos.dat", "rb");
 
@@ -466,7 +466,7 @@ char* get_prod(const long int cod) {
 
 
 
-int get_est_prod(long int cod, int quant) {
+int get_est_prod(long int cod, int quant) {  //Função inspirada no Cód de https://github.com/AronSilva04
   Produto* produto;
   FILE* fp = fopen("produtos.dat", "r+b");
 
@@ -504,7 +504,7 @@ int get_est_prod(long int cod, int quant) {
 }
 
 
-float get_val_prod(long int cod) {
+float get_val_prod(long int cod) {  //Função inspirada no Cód de https://github.com/AronSilva04
   Produto* produto;
   float valor;
   FILE* fp = fopen("produtos.dat", "rb");
