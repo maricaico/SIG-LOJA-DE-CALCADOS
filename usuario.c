@@ -353,15 +353,19 @@ void tela_excluir_usuario(void) {
 // Funções
 
 void ler_Cpf (char* cpf) {
+  fflush(stdin);
+  printf("Digite o CPF (Apenas Números): ");
+  fgets (cpf, 12, stdin);
+  getchar();
+  while (!validarCpf(cpf)) {
+    printf("Erro! Digite novamente: ");
     fflush(stdin);
-    printf("Digite o CPF (Apenas Números): ");
     fgets (cpf, 12, stdin);
-    while (!validarCpf (cpf)) {
-        printf("Erro! Digite novamente: ");
-        fgets (cpf, 12, stdin);
-    }
     getchar();
+  }   
 }
+
+
 
 // Função inspirada no código do Prof. Flavius
 

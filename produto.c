@@ -23,7 +23,7 @@
 //////
 
 
-void ler_cod(int*);
+void ler_cod(long int*);
 void ler_descr(char*);
 void ler_quant(int*);
 void ler_tam(int*);
@@ -126,7 +126,9 @@ Produto* tela_cadastrar_produto(void) {
    
     produto = (Produto*) malloc(sizeof(Produto));
 
-    ler_cod(&(produto->cod));
+    printf("Digite o Código de Barras do produto: ");
+    scanf("%ld", &produto->cod);
+    getchar();
 
     ler_descr(produto->descr);
 
@@ -154,7 +156,7 @@ Produto* tela_cadastrar_produto(void) {
 Produto* tela_pesquisar_produto(void) {
     FILE* fp;
     Produto* produto;
-    int cod;
+    long int cod;
     system("clear||cls");
     printf("\n");
     printf("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=\n");
@@ -176,7 +178,7 @@ Produto* tela_pesquisar_produto(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***           Digite o Cód de Barras que deseja pesquisar: ");
-    scanf("%d", &cod);
+    scanf("%ld", &cod);
     getchar();
     produto = (Produto*) malloc(sizeof(Produto));
     fp = fopen("produtos.dat", "rb");
@@ -205,7 +207,7 @@ Produto* tela_pesquisar_produto(void) {
 
 
 void tela_alterar_produto(void) {
-    int cod;
+    long int cod;
     Produto* produto = (Produto*) malloc(sizeof(Produto));
     FILE* fp;
     int ache = 0;
@@ -230,7 +232,7 @@ void tela_alterar_produto(void) {
     printf("***                                                                         ***\n");
     printf("***                                                                         ***\n");
     printf("***    Digite o Código do Produto que deseja alterar: ");
-    scanf("%d", &cod);
+    scanf("%ld", &cod);
     getchar();
     fp = fopen("produtos.dat", "r+b");
     if (fp == NULL) {
@@ -281,7 +283,7 @@ void tela_alterar_produto(void) {
 
 
 void tela_excluir_produto(void) {
-  int cod;
+  long int cod;
   Produto* produto = (Produto*) malloc(sizeof(Produto));
   FILE* fp;
   int ache = 0;
@@ -307,7 +309,7 @@ void tela_excluir_produto(void) {
   printf("***                                                                         ***\n");
   printf("***                                                                         ***\n");
   printf("***       Digite o Código de Barras do Produto (Apenas Números): ");
-  scanf("%d", &cod);
+  scanf("%ld", &cod);
   getchar();
   fp = fopen("produtos.dat", "r+b");
   if (fp == NULL) {
@@ -347,13 +349,6 @@ void tela_excluir_produto(void) {
 
 
 
-// Funções
-
-void ler_cod (int* cod) {
-    printf("Código de Barras: ");
-    scanf("%d", cod);
-    getchar();
-}
 
 
 // Função inspirada no código do Prof. Flavius
@@ -423,7 +418,7 @@ void grava_prod(Produto* produto) {
 void lista_prod(void) {
   FILE* fp;
   Produto* produto;
-  printf("\n = Lista de Clientes = \n");
+  printf("\n = Lista de Produtos = \n");
   produto = (Produto*) malloc(sizeof(Produto));
   fp = fopen("produtos.dat", "rb");
   if (fp == NULL) {
@@ -464,13 +459,13 @@ void exibe_prod(Produto *produto) {
       printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
       getchar();
   } else {
-      printf("\n*** Produto Cadastrado***\n");
+      printf("\n*** Produtos Cadastrados***\n");
       printf("\n");
       printf("*** Descrição do Produto: ");
       printf("%s" ,produto->descr);
       printf("\n");
       printf("*** Código de Barras: ");
-      printf("%d" ,produto->cod);
+      printf(" %ld" ,produto->cod);
       printf("\n");
       printf("*** Quantidade: ");
       printf("%d" ,produto->quant);

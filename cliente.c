@@ -24,7 +24,7 @@
 //////
 
 
-void ler_cpf (char*);
+
 void ler_nome (char*);
 void ler_email (char*);
 void ler_nasc (char*);
@@ -106,6 +106,8 @@ char tela_menu_cliente(void) {
 
 Cliente* tela_cadastrar_cliente(void) {
     Cliente* cliente;
+    int valido = 0;  
+    int cpfDuplicado = 0;  
     
     limpaTela();
     printf("\n");
@@ -129,7 +131,24 @@ Cliente* tela_cadastrar_cliente(void) {
     
     cliente = (Cliente*) malloc(sizeof(Cliente));
 
-    ler_cpf(cliente->cpf);
+    // Código abaixo inspirado em https://github.com/Gabrielygor/Clinica-dentaria-UFRN
+    do {
+      printf("Digite o CPF do Cliente(Apenas numeros): ");
+      scanf("%s", cliente->cpf);  //Recebe o CPF do cliente
+      getchar();
+      cpfDuplicado = verificaCPFDuplicado(cliente->cpf);  //Verifica se o cpf é duplicado
+      if (cpfDuplicado) {  //Se for duplicado da erro
+          printf("CPF ja cadastrado.\n");
+          printf("=-=-=-=-=-=-=-=\n");
+      } else if (validarCpf(cliente->cpf)) {  //Se nao for duplicado e for valido == Cpf valido
+          printf("CPF valido.\n");
+          printf("=-=-=-=-=-=-=-=\n");
+          valido = 1;
+      } else {
+          printf("CPF invalido.\n");
+      }
+    } while (!valido || cpfDuplicado);  //Enquanto nao for valido e n duplicado continua no loop 
+    
 
     ler_nome(cliente->nome);
 
@@ -351,16 +370,29 @@ void tela_excluir_cliente(void) {
 
 // Funções
 
-void ler_cpf (char* cpf) {
-    fflush(stdin);
-    printf("Digite o CPF (Apenas Números): ");
-    fgets (cpf, 12, stdin);
-    while (!validarCpf (cpf)) {
-        printf("Erro! Digite novamente: ");
-        fgets (cpf, 12, stdin);
-    }
-    getchar();
+
+//Função baseada no código de https://github.com/GuiMedeirox
+
+int verificaCPFDuplicado(const char* cpf) {
+FILE* fp = fopen("clientes.dat", "rb");
+
+if (fp == NULL) {
+  printf("Erro ao abrir o arquivo para leitura.\n");
+  return 0; 
 }
+
+Cliente cliente;
+
+while (fread(&cliente, sizeof(Cliente), 1, fp) == 1) {
+  if (strcmp(cliente.cpf, cpf) == 0) {            
+    fclose(fp);
+    return 1;
+  }
+}
+fclose(fp);
+return 0;
+}
+
 
 // Função inspirada no código do Prof. Flavius
 
@@ -424,7 +456,6 @@ void ler_nasc(char* nasc) {
     printf("Informe uma nova data\n\n");
     printf("Data de nascimento: ");
     fgets(nasc, 11, stdin);
-    fflush(stdin);
     getchar();
     strncpy(dd, &nasc[0], 2);
     sscanf(dd, "%d", &dia);
@@ -513,7 +544,7 @@ void exibe_cli(Cliente *cliente) {
       printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
       getchar();
   } else {
-      printf("\n*** Cliente Cadastrado***\n");
+      printf("\n*** Clientes Cadastrados***\n");
       printf("\n");
       printf("*** Nome do Cliente: ");
       printf("%s" ,cliente->nome);

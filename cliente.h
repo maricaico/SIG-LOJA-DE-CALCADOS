@@ -42,5 +42,5 @@ Cliente* tela_pesquisar_cliente(void);
 
 void exibe_cli(Cliente* cliente);
 void lista_todos(void);
-
+int verificaCPFDuplicado(const char* cpf);
 

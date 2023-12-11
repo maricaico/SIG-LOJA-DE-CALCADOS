@@ -20,7 +20,7 @@ int ehLetra(char);
 int ehBissexto(int);
 int ehValido(char);
 int validarData(int, int, int);
-int validarCpf(char*);
+int validarCpf(const char* cpf);
 int validarNome(char*);
 int validarEmail(char*);
 int validarFone(char*);

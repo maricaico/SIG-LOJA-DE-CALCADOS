@@ -4,6 +4,7 @@
 ## UFRN - DISCIPLINA: PROGRAMÇÃO - LINGUAGEM: C
 ## MARIANA MEDEIROS, AGOSTO - 2023
 
+
 - Compilação
 
 Linux:
@@ -20,9 +21,6 @@ Windows:
     gcc -o sapataria *.o
     sapataria.exe
 
-Peço aos usuários que compilarem meu código, que considerem que até o momento
-o mesmo encontra-se somente com os módulos Usuários, Clientes e Produtos em funcionamento,
-e que algumas funções de validação ainda não foram implementadas.
-Peço tbm que seja justo e empático.
+
 
 

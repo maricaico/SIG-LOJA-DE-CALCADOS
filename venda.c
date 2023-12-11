@@ -49,6 +49,8 @@ void menuVenda(void) {
                         break;
             case '3':   tela_excluir_venda(); 
                         break; 
+            case '4':   listar_vendas();
+                        break;
                         
           } 		
     } while (opcao != '0');
@@ -83,6 +85,8 @@ char tela_menu_venda(void) {
     printf("***            2. Consultar Vendas                                          ***\n");
     printf("***                                                                         ***\n");
     printf("***            3. Excluir Vendas                                            ***\n");
+    printf("***                                                                         ***\n");
+    printf("***            4. Listar Vendas                                             ***\n");
     printf("***                                                                         ***\n");
     printf("***            0. Voltar ao Menu Anterior                                   ***\n");
     printf("***                                                                         ***\n");
@@ -126,13 +130,17 @@ char tela_menu_venda(void) {
 
     ler_Cupom(venda->cupom); 
 
-    printf("Código de Barras do Produto: ");
-    scanf("%d", &venda->cod);
+    printf("Código de Barras do Produto (13 dígitos): ");
+    scanf("%ld", &venda->cod);
     getchar();
 
     nome_prod = get_prod(venda->cod);
 
     printf("Descrição do produto: %s\n", nome_prod); 
+
+    venda->tam = get_tam_prod(venda->cod);
+
+    printf("Tamanho: %d\n", venda->tam);
     
     ler_CPf(venda->cpf); 
     
@@ -145,8 +153,11 @@ char tela_menu_venda(void) {
     venda->valor = get_val_prod(venda->cod);
 
     printf("Valor Unitário: R$ %.2f\n", venda->valor);
+    getchar();
 
     venda->preco = venda->quant * venda->valor;
+
+    printf("Valor Total: R$ %.2f\n", venda->preco);
 
     venda->status = 'a';
 
@@ -348,6 +359,30 @@ void ler_Datahora(char* dataHora) {
 
 
 
+void listar_vendas(void) {
+  FILE* fp;
+  Venda* venda;
+  printf("\n = Lista de Vendas = \n");
+  venda = (Venda*) malloc(sizeof(Venda));
+  fp = fopen("vendas.dat", "rb");
+  if (fp == NULL) {
+    printf("Erro na abertura do arquivo!/n");
+    printf("Não é possível continuar...\n");
+    exit(1);
+  }
+  while (fread(venda, sizeof(Venda), 1, fp)) { 
+    if (venda->status != 'e') {
+      exibe_venda(venda);
+      printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+      getchar();
+    }
+  }
+  fclose(fp);
+  free(venda);
+}
+
+
+
 void exibe_venda(Venda *venda) {
 
     char situacao[20];
@@ -378,7 +413,7 @@ void exibe_venda(Venda *venda) {
       printf("%s" ,venda->cpf);
       printf("\n");
       printf("*** Código de Barras: ");
-      printf("%d" ,venda->cod);
+      printf("%ld" ,venda->cod);
       printf("\n");
       printf("*** Quantidade: ");
       printf("%d" ,venda->quant);
@@ -400,7 +435,7 @@ void exibe_venda(Venda *venda) {
 }
 
 
-char* get_prod(const int cod) {
+char* get_prod(const long int cod) {
   Produto produto;
   FILE* fp = fopen("produtos.dat", "rb");
 
@@ -431,7 +466,7 @@ char* get_prod(const int cod) {
 
 
 
-int get_est_prod(int cod, int quant) {
+int get_est_prod(long int cod, int quant) {
   Produto* produto;
   FILE* fp = fopen("produtos.dat", "r+b");
 
@@ -457,7 +492,7 @@ int get_est_prod(int cod, int quant) {
           printf("Quantidade: ");
           scanf("%d", &quant);
           getchar();
-        }while (quant > produto->quant);
+        } while (quant > produto->quant);
       }
       produto->quant -= quant;
       fseek(fp, -sizeof(Produto), SEEK_CUR);
@@ -469,7 +504,7 @@ int get_est_prod(int cod, int quant) {
 }
 
 
-float get_val_prod(int cod) {
+float get_val_prod(long int cod) {
   Produto* produto;
   float valor;
   FILE* fp = fopen("produtos.dat", "rb");
@@ -483,12 +518,43 @@ float get_val_prod(int cod) {
   }
   produto = (Produto*) malloc(sizeof(Produto));
   while (fread(produto, sizeof(Produto), 1, fp) == 1) {
-    if (produto->cod != cod) {
-      return 0;
-    } 
+     if (produto->cod == cod) {
+      valor = produto->valor;
+      fclose(fp);
+      free(produto);
+      return valor;
+    }
   }
-  valor = produto->valor;
-  return valor;
+  fclose(fp);
+  free(produto);
+  return 0;
 }
 
+
+
+int get_tam_prod(long int cod) {
+  Produto* produto;
+  int tam;
+  FILE* fp = fopen("produtos.dat", "rb");
+
+  if (fp == NULL) {
+    printf("\t\t\t>>> Processando as informações...\n");
+    sleep(1);
+    printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+  }
+  produto = (Produto*) malloc(sizeof(Produto));
+  while (fread(produto, sizeof(Produto), 1, fp) == 1) {
+      if (produto->cod == cod) {
+      tam = produto->tam;
+      fclose(fp);
+      free(produto);
+      return tam;
+    }
+  }
+  fclose(fp);
+  free(produto);
+  return 0;
+}
  

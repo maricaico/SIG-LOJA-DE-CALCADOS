@@ -697,7 +697,7 @@ void lista_produto(void) {
     printf("\n");
     while (fread(produto, sizeof(Produto), 1, fp)) { 
         if (produto->status != 'e') {
-            printf("%-13d", produto->cod);
+            printf("%-13ld", produto->cod);
             printf("|");
             printf("%-50s", produto->descr);
             printf("|");
@@ -759,7 +759,7 @@ void lista_status_pr(char st) {
     printf("\n");
     while (fread(produto, sizeof(Produto), 1, fp)) { 
         if (produto->status == st) {
-            printf("%-13d", produto->cod);
+            printf("%-13ld", produto->cod);
             printf("|");
             printf("%-50s", produto->descr);
             printf("|");
@@ -887,7 +887,7 @@ void lista_venda(void) {
         if (venda->status != 'e') {
             printf("%-13s", venda->cupom);
             printf("|");
-            printf("%-50d", venda->cod);
+            printf("%-50ld", venda->cod);
             printf("|");
             printf("%-13s", venda->cpf);
             printf("\n");
@@ -962,10 +962,10 @@ void listar_venda_cpf(Venda* venda) {
             nome_cliente = get_cliente(cpf);
             nome_produto = get_prod(venda->cod);
             printf("%-8s", venda->cupom);
-            printf("%-15d", venda->cod);
+            printf("%-15ld", venda->cod);
             printf("%-20s", nome_produto);
             printf("%-20s", nome_cliente);
-            printf("R$ %-10.2f", venda->valor);
+            printf("R$ %-10.2f", venda->preco);
             printf("%-17s", venda->dataHora);
             printf("\n");
         }

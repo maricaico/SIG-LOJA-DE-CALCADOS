@@ -17,7 +17,7 @@
 typedef struct produto Produto;
 
 struct produto {
-    int cod;
+    long int cod;
 	char descr[50];
 	int quant;
 	int tam;
@@ -32,7 +32,6 @@ char tela_menu_produto(void);
 void grava_prod(Produto* produto);
 void tela_alterar_produto(void);
 void tela_excluir_produto(void);
-void ler_cod(int*);
 void ler_descr(char*);
 void ler_quant(int*);
 void ler_tam(int*);
@@ -42,6 +41,7 @@ Produto* tela_pesquisar_produto(void);
 
 void exibe_prod(Produto *produto);
 void lista_prod(void);
-char* get_prod(const int cod);
-int get_est_prod(int cod, int quant);
-float get_val_prod(int cod);
+char* get_prod(const long int cod);
+int get_est_prod(long int cod, int quant);
+float get_val_prod(long int cod);
+int get_tam_prod(long int cod);

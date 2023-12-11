@@ -140,22 +140,6 @@ int validarFone (char* fone) {
 
 
 
-int validarCpf(char* cpf) {
-  int tam;
-
-  tam = strlen(cpf);
-  if (tam < 11 || tam > 12) {
-    return false;
-  }
-  for (int i = 0; i < tam; i++) {
-    if (!ehDigito(cpf[i])) {
-      return false;
-    }
-  }
-  return true;
-}
-
-
 // Função feita com ajuda do Chatgpt
 
 int validarEmail(char* email) {
@@ -225,34 +209,52 @@ int validarDescr(char* descr) {
 }
 
 
+// Função baseada no código de https://github.com/RenanMRb/ProjetoEagleEyes.git
+int validarCpf(const char* cpf) {
+    int i, j, digito1 = 0, digito2 = 0;
 
+    // Verifica se o CPF possui 11 dígitos
+    if (strlen(cpf) != 11) {
+        return 0;
+    }
 
-///int validarValor(char* valor) {
-  ///int tam = strlen(valor);
+    // Verifica se o CPF não possui todos os dígitos iguais
+    for (i = 0; i < 10; i++) {
+        if (cpf[i] != cpf[i + 1]) {
+            break;
+        }
+    }
+    if (i == 10) {
+        return 0;
+    }
 
-  // Verifica se o tamanho da string está no intervalo válido para um valor monetário (3 a 5 caracteres).
-  //if (tam < 3 || tam > 5) {
-    //return 0; // Formato inválido.
-  //}
+    // Calcula os dígitos verificadores do CPF
+    for (i = 0, j = 10; i < 9; i++, j--) {
+        digito1 += (cpf[i] - '0') * j;
+    }
+    digito1 %= 11;
+    if (digito1 < 2) {
+        digito1 = 0;
+    } else {
+        digito1 = 11 - digito1;
+    }
+    if ((cpf[9] - '0') != digito1) {
+        return 0;
+    }
 
-  // Verifica se o terceiro caractere é um ponto.
-  //if (valor[2] != '.') {
-    //return 0; // Formato inválido.
-  //}
+    for (i = 0, j = 11; i < 10; i++, j--) {
+        digito2 += (cpf[i] - '0') * j;
+    }
+    digito2 %= 11;
+    if (digito2 < 2) {
+        digito2 = 0;
+    } else {
+        digito2 = 11 - digito2;
+    }
+    if ((cpf[10] - '0') != digito2) {
+        return 0;
+    }
 
-  // Verifica se os caracteres antes e depois do ponto são dígitos numéricos.
-  //for (int i = 0; i < tam; i++) {
-    //if ((i != 2) && !ehDigito(valor[i])) {
-      //return 0; // Formato inválido.
-    //}
-  //}
-
-  //return 1; // Formato monetário válido.
-//}
-
-
-
-
-
-
-
+    // Se passou por todas as verificações, o CPF é válido
+    return 1;
+} 
