@@ -305,7 +305,6 @@ void tela_excluir_venda(void) {
 
 // Funções
 
-
 void ler_Cupom (char* cupom) {
     fflush(stdin);
     printf("Digite a numeração do cupom fiscal com 4 dígitos : ");
@@ -558,3 +557,5 @@ int get_tam_prod(long int cod) {
   return 0;
 }
  
+
+
